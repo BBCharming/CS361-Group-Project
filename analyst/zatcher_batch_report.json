@@ -1,0 +1,243 @@
+[
+  {
+    "meta": {
+      "source_file": "screenshot0.jpeg",
+      "analysis_timestamp": "2026-06-23T10:39:57.665207",
+      "operation": "Project Zatcher | Operation Spectre",
+      "analyst": "LADINA",
+      "engine": "gemini-2.5-flash",
+      "text_length": 344
+    },
+    "raw_text_preview": "07:52 waif @ RAS\n< \u00a9& 0871316752 wt\n\n\u00bb)\n28\n28\n8\n\nBlocked\n\nUnblock to receive messages\nfrom this sender\n\nUnblock\n\nWednesday, May 6 \u00ab 13:08\n\nTexting with 057 1316752 (SMS/MMS)\n\nTo send that monfy use this line\n0964465843 name will come\nmusamba sophy that line is nt\nworkng on mobile mon\u00a3y\n\nSending with 1 Airtel\n\n@\u00ae Airtel + Text \u00a9) [) sf\n\n= oO q",
+    "pre_extraction": {
+      "phones_found": [
+        "0964465843"
+      ],
+      "amounts_found": [
+        "52",
+        "08",
+        "07",
+        "1",
+        "8"
+      ],
+      "platform_hint": "Airtel",
+      "technique_hints": []
+    },
+    "ai_intelligence": {
+      "scammer_phones": [
+        "0964465843",
+        "0571316752"
+      ],
+      "scammer_names": [
+        "musamba sophy"
+      ],
+      "victim_phones": [],
+      "platform": "Airtel",
+      "amount_requested": null,
+      "amount_lost": null,
+      "scam_technique": "Mobile money redirection using an excuse that the primary line is not working, directing the victim to send funds to a different line.",
+      "language_used": "English",
+      "urgency_level": "medium",
+      "threat_present": false,
+      "impersonation": null,
+      "key_phrases": [
+        "To send that monfy use this line",
+        "musamba sophy",
+        "that line is nt workng on mobile mon\u00a3y"
+      ],
+      "confidence_score": 1.0,
+      "analyst_note": "This is a direct mobile money scam where the perpetrator instructs the victim to send 'monfy' to a specific Zamtel line (0964465843) registered under 'musamba sophy'. The scammer provides an excuse that their original line is 'not working on mobile mon\u00a3y' to justify using this alternative line. The communication appears to be via an Airtel number (0571316752). No specific amount requested or lost is indicated in the provided text.",
+      "_engine": "gemini-2.5-flash"
+    },
+    "mysql_ready": {
+      "scammer_phone": "0964465843",
+      "scammer_alias": "musamba sophy",
+      "victim_phone": null,
+      "platform": "Airtel",
+      "amount_requested": null,
+      "amount_lost": null,
+      "scam_technique": "Mobile money redirection using an excuse that the primary line is not working, directing the victim to send funds to a different line.",
+      "urgency_level": "medium",
+      "threat_present": false,
+      "confidence_score": 1.0,
+      "analyst_note": "This is a direct mobile money scam where the perpetrator instructs the victim to send 'monfy' to a specific Zamtel line (0964465843) registered under 'musamba sophy'. The scammer provides an excuse that their original line is 'not working on mobile mon\u00a3y' to justify using this alternative line. The communication appears to be via an Airtel number (0571316752). No specific amount requested or lost is indicated in the provided text.",
+      "status": "analysed"
+    }
+  },
+  {
+    "meta": {
+      "source_file": "screenshot1.jpeg",
+      "analysis_timestamp": "2026-06-23T10:40:28.649259",
+      "operation": "Project Zatcher | Operation Spectre",
+      "analyst": "LADINA",
+      "engine": "gemini-2.5-flash",
+      "text_length": 334
+    },
+    "raw_text_preview": "07:52 nail @ RAS\n< \u00a9& 057478873\n\n\u00bb)\n28\n28\n8\n\nBlocked\n\nUnblock to receive messages\nfrom this sender\n\nUnblock\n\nMonday, May 4 + 08:41\n\nTexting with 057 4788743 (SMS/MMS)\n\nNow you are eligible to borrow\nmoney ZMW 10,000 from\nFIKILIZA, Dial.\n*115*8*1607853*333# get your\nloan now!\n\nSending with 1 Airtel\n\n@\u00ae Airtel + Text @) () \u2018le\n\n= oO q",
+    "pre_extraction": {
+      "phones_found": [],
+      "amounts_found": [
+        "333",
+        "4",
+        "52",
+        "08",
+        "07"
+      ],
+      "platform_hint": "Airtel",
+      "technique_hints": [
+        "borrow",
+        "loan"
+      ]
+    },
+    "ai_intelligence": {
+      "scammer_phones": [
+        "0574788743"
+      ],
+      "scammer_names": [
+        "FIKILIZA"
+      ],
+      "victim_phones": [],
+      "platform": "Airtel",
+      "amount_requested": "10000",
+      "amount_lost": null,
+      "scam_technique": "Fake loan offer where victims are prompted to dial a USSD code which likely deducts airtime or money.",
+      "language_used": "English",
+      "urgency_level": "medium",
+      "threat_present": false,
+      "impersonation": "Loan provider (FIKILIZA)",
+      "key_phrases": [
+        "eligible to borrow money",
+        "get your loan now!",
+        "Dial *115*8*1607853*333#"
+      ],
+      "confidence_score": 0.9,
+      "analyst_note": "This is a typical mobile money scam targeting individuals seeking quick loans. The scammer promises ZMW 10,000 from 'FIKILIZA' and instructs the victim to dial a specific USSD code (*115*8*1607853*333#) to 'get your loan now!'. This USSD code is likely designed to trick the user into performing a transaction, potentially registering for a premium service, sending money to the scammer, or approving a deduction from their mobile money wallet or airtime. The platform used is Airtel, confirmed by the 'Sending with 1 Airtel' note. The phone number 0574788743 is associated with the message sender.",
+      "_engine": "gemini-2.5-flash"
+    },
+    "mysql_ready": {
+      "scammer_phone": "0574788743",
+      "scammer_alias": "FIKILIZA",
+      "victim_phone": null,
+      "platform": "Airtel",
+      "amount_requested": "10000",
+      "amount_lost": null,
+      "scam_technique": "Fake loan offer where victims are prompted to dial a USSD code which likely deducts airtime or money.",
+      "urgency_level": "medium",
+      "threat_present": false,
+      "confidence_score": 0.9,
+      "analyst_note": "This is a typical mobile money scam targeting individuals seeking quick loans. The scammer promises ZMW 10,000 from 'FIKILIZA' and instructs the victim to dial a specific USSD code (*115*8*1607853*333#) to 'get your loan now!'. This USSD code is likely designed to trick the user into performing a transaction, potentially registering for a premium service, sending money to the scammer, or approving a deduction from their mobile money wallet or airtime. The platform used is Airtel, confirmed by the 'Sending with 1 Airtel' note. The phone number 0574788743 is associated with the message sender.",
+      "status": "analysed"
+    }
+  },
+  {
+    "meta": {
+      "source_file": "screenshot2.jpeg",
+      "analysis_timestamp": "2026-06-23T10:40:40.349889",
+      "operation": "Project Zatcher | Operation Spectre",
+      "analyst": "LADINA",
+      "engine": "unknown",
+      "text_length": 337
+    },
+    "raw_text_preview": "07:52 allies @ x\n\u20ac \u00a9& 08744249399 wt\n\n2\u00bb\n\nait tt GD\n\nBlocked\nUnblock to receive messages\nfrom this sender\n\nUnblock\n\nFriday, May 1\u00bb 09:00\n\nTexting with 057 4424939 (SMS/MMS)\n\nNow you are eligible to borrow\nmoney ZMW 10,000 from\nFIKILIZA, Dial.\n*115*8*1607853*333# get your\nloan now!\n\nSending with 1 Airtel\n\n@\u00ae Airtel + Text \u00a9 & \u2018A\n\n= oO q",
+    "pre_extraction": {
+      "phones_found": [],
+      "amounts_found": [
+        "333",
+        "09",
+        "1",
+        "07",
+        "52"
+      ],
+      "platform_hint": "Airtel",
+      "technique_hints": [
+        "borrow",
+        "loan"
+      ]
+    },
+    "ai_intelligence": {
+      "scammer_phones": [],
+      "scammer_names": [],
+      "victim_phones": [],
+      "platform": "Unknown",
+      "amount_requested": null,
+      "amount_lost": null,
+      "scam_technique": "",
+      "language_used": "English",
+      "urgency_level": "medium",
+      "threat_present": false,
+      "impersonation": null,
+      "key_phrases": [],
+      "confidence_score": 0.0,
+      "analyst_note": "Gemini analysis failed after all retries"
+    },
+    "mysql_ready": {
+      "scammer_phone": null,
+      "scammer_alias": "",
+      "victim_phone": null,
+      "platform": "Unknown",
+      "amount_requested": null,
+      "amount_lost": null,
+      "scam_technique": "",
+      "urgency_level": "medium",
+      "threat_present": false,
+      "confidence_score": 0.0,
+      "analyst_note": "Gemini analysis failed after all retries",
+      "status": "analysed"
+    }
+  },
+  {
+    "meta": {
+      "source_file": "Screenshot_20260622-053454.png",
+      "analysis_timestamp": "2026-06-23T10:40:57.299965",
+      "operation": "Project Zatcher | Operation Spectre",
+      "analyst": "LADINA",
+      "engine": "unknown",
+      "text_length": 261
+    },
+    "raw_text_preview": "5:34 & STE 83\n\n<\u20ac \u00a9 057 0669851 Le H\n\nFriday + 5:37 AM\n\nTexting with 057 0669851 (SMS/MMS)\n\nSpam Alert:Use this line 0776822202 to send\nthat money my number is blocked on mobile\nmoney name will comes is ABEL MWALE.\n\n+ Airtel\n\n(Oo) Airtel \u00bb Text message \u00a9 @) \u2018ll",
+    "pre_extraction": {
+      "phones_found": [
+        "0776822202"
+      ],
+      "amounts_found": [
+        "83",
+        "37",
+        "34",
+        "057",
+        "5"
+      ],
+      "platform_hint": "Airtel",
+      "technique_hints": []
+    },
+    "ai_intelligence": {
+      "scammer_phones": [],
+      "scammer_names": [],
+      "victim_phones": [],
+      "platform": "Unknown",
+      "amount_requested": null,
+      "amount_lost": null,
+      "scam_technique": "",
+      "language_used": "English",
+      "urgency_level": "medium",
+      "threat_present": false,
+      "impersonation": null,
+      "key_phrases": [],
+      "confidence_score": 0.0,
+      "analyst_note": "Gemini analysis failed after all retries"
+    },
+    "mysql_ready": {
+      "scammer_phone": null,
+      "scammer_alias": "",
+      "victim_phone": null,
+      "platform": "Unknown",
+      "amount_requested": null,
+      "amount_lost": null,
+      "scam_technique": "",
+      "urgency_level": "medium",
+      "threat_present": false,
+      "confidence_score": 0.0,
+      "analyst_note": "Gemini analysis failed after all retries",
+      "status": "analysed"
+    }
+  }
+]
