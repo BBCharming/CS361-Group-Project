@@ -3,178 +3,606 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zatcher - Reclaim Your Money After Fraud</title>
+    <meta name="description" content="Zatcher - A fraud reporting and case management platform for Zambia. Report mobile money fraud, track case status, and access fraud awareness resources.">
+    <title>Zatcher - Fraud Reporting & Case Management Platform</title>
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
+    <!-- Skip to Content Link for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="nav-container">
             <div class="logo">
-                <h2>Zatcher</h2>
-                <p class="tagline">Money Recovery Solutions</p>
+                <a href="index.html" aria-label="Zatcher Home">
+                    <h2>Zatcher</h2>
+                    <p class="tagline">Fraud Reporting Platform</p>
+                </a>
             </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="hamburger"></span>
+            </button>
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#faq">FAQ</a></li>
                 <li><a href="#contact">Contact</a></li>
+                <li><a href="login.html" class="nav-btn login-btn">Login</a></li>
+                <li><a href="register.html" class="nav-btn register-btn">Register</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Take Back What's Yours</h1>
-            <p class="subtitle">Professional fraud recovery and scam investigation services for individuals and businesses</p>
-            <button class="cta-button">Start Your Recovery Today</button>
-        </div>
-    </section>
+    <!-- Main Content -->
+    <main id="main-content">
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2>About Zatcher</h2>
-            <p class="about-text">
-                We restore financial security and peace of mind to individuals and businesses harmed by fraud. Using investigative expertise and advocacy, we help you reclaim what's rightfully yours. Through expert legal support and compassionate guidance, we fight back against scammers so that our clients don't have to fight alone.
-            </p>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="services">
-        <div class="container">
-            <h2>Our Services</h2>
-            <div class="service-grid">
-                <div class="service-card">
-                    <div class="service-icon">📊</div>
-                    <h3>Fraud Investigation</h3>
-                    <p>Comprehensive investigation of scams to identify perpetrators and track stolen funds</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🛡️</div>
-                    <h3>Recovery Assistance</h3>
-                    <p>Expert guidance and support in recovering your stolen money and assets</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">📚</div>
-                    <h3>Education & Prevention</h3>
-                    <p>Learn how to protect yourself and prevent future scams from happening</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">⚖️</div>
-                    <h3>Legal Support</h3>
-                    <p>Access to legal resources and advocacy to strengthen your case</p>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Report Fraud. Track Progress. Stay Informed.</h1>
+                <p class="subtitle">A secure platform for reporting mobile money fraud in Zambia. Submit incidents, upload evidence, and track your case status with transparency.</p>
+                <div class="hero-buttons">
+                    <a href="register.html" class="cta-button">Report Fraud Now</a>
+                    <a href="#how-it-works" class="secondary-button">Learn How It Works</a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- How It Works -->
-    <section id="how-it-works" class="how-it-works">
-        <div class="container">
-            <h2>How It Works</h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Report Your Case</h3>
-                    <p>Contact us with details of your scam experience</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Initial Assessment</h3>
-                    <p>Our experts review your case and develop a recovery strategy</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Investigation & Tracking</h3>
-                    <p>We investigate and locate your stolen funds</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <h3>Recovery & Support</h3>
-                    <p>We guide you through recovery and help prevent future incidents</p>
+        <!-- Trust Indicators Bar -->
+        <section class="trust-bar">
+            <div class="container">
+                <div class="trust-items">
+                    <div class="trust-item">
+                        <span class="trust-icon">🔒</span>
+                        <span>Secure & Confidential</span>
+                    </div>
+                    <div class="trust-item">
+                        <span class="trust-icon">⏱️</span>
+                        <span>24-Hour Response</span>
+                    </div>
+                    <div class="trust-item">
+                        <span class="trust-icon">📊</span>
+                        <span>Evidence Tracking</span>
+                    </div>
+                    <div class="trust-item">
+                        <span class="trust-icon">🛡️</span>
+                        <span>Data Protected</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Impact Gallery -->
-    <section class="impact">
-        <div class="container">
-            <h2>Our Impact</h2>
-            <div class="image-gallery">
-                <div class="image-item">
-                    <img src="/assets/Screenshot 2026-05-10 115105.png" alt="Scam Education">
-                    <p>Education & Awareness - We empower victims with knowledge to prevent future scams</p>
-                </div>
-                <div class="image-item">
-                    <img src="/assets/fraud.jpg" alt="Fraud Prevention">
-                    <p>Fraud Prevention - Our mission is to eradicate fraud and protect communities</p>
-                </div>
-                <div class="image-item">
-                    <img src="/assets/confident-black-lady-sitting-holding-wad-cash-isolated-background.jpg" alt="Money Recovery">
-                    <p>Money Recovery - Successfully reclaiming stolen funds for our clients</p>
+        <!-- About Section -->
+        <section id="about" class="about">
+            <div class="container">
+                <h2>About Zatcher</h2>
+                <p class="about-text">
+                    Zatcher is a comprehensive fraud reporting and case management platform designed to help victims of mobile money fraud in Zambia. We provide a secure channel to report incidents, upload supporting evidence, and track case progress through investigation workflows. Our platform bridges the gap between fraud victims, technical analysts, and regulatory processes — bringing transparency and structure to fraud response.
+                </p>
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Confidential Reporting</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Evidence Upload</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">Real-time</span>
+                        <span class="stat-label">Case Tracking</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- FAQ Section -->
-    <section class="faq">
-        <div class="container">
-            <h2>Frequently Asked Questions</h2>
-            <div class="faq-grid">
-                <div class="faq-item">
-                    <h3>How do I create an account?</h3>
-                    <p>Simply visit our website and click "Start Your Recovery Today". Fill out the intake form with your case details, and our team will contact you within 24 hours.</p>
+        <!-- Institution Showcase Section -->
+        <section class="institution-showcase">
+            <div class="container">
+                <h2>Relevant Institutions & Service Providers</h2>
+                <p class="section-subtitle">These organizations play key roles in Zambia's telecommunications and financial services landscape. Reports submitted through Zatcher may involve coordination with relevant institutions depending on the nature of the incident.</p>
+                <div class="logo-carousel" role="region" aria-label="Institution logos">
+                    <div class="carousel-track">
+                        <div class="carousel-item">
+                            <div class="logo-container">
+                                <img src="/assets/logo/mtn logo.png" alt="MTN Zambia" class="institution-logo" loading="lazy">
+                                <div class="logo-fallback">
+                                    <span class="logo-text">MTN</span>
+                                    <span class="logo-sub">Zambia</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="logo-container">
+                                <img src="/assets/logo/airtel money.png" alt="Airtel Zambia" class="institution-logo" loading="lazy">
+                                <div class="logo-fallback">
+                                    <span class="logo-text">Airtel</span>
+                                    <span class="logo-sub">Zambia</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="logo-container">
+                                <img src="/assets/logo/zamtel logo.png" alt="Zamtel" class="institution-logo" loading="lazy">
+                                <div class="logo-fallback">
+                                    <span class="logo-text">Zamtel</span>
+                                    <span class="logo-sub">Zambia</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="logo-container">
+                                <img src="/assets/logo/zicta logo.png" alt="ZICTA - Zambia Information and Communication Technology Authority" class="institution-logo" loading="lazy">
+                                <div class="logo-fallback">
+                                    <span class="logo-text">ZICTA</span>
+                                    <span class="logo-sub">Regulator</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="logo-container">
+                                <img src="/assets/logo/zambia police logo.png" alt="Zambia Police Service" class="institution-logo" loading="lazy">
+                                <div class="logo-fallback">
+                                    <span class="logo-text">Zambia</span>
+                                    <span class="logo-sub">Police</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Duplicate for seamless loop -->
+                        <div class="carousel-item">
+                            <div class="logo-container">
+                                <img src="/assets/logo/mtn logo.png" alt="MTN Zambia" class="institution-logo" loading="lazy">
+                                <div class="logo-fallback">
+                                    <span class="logo-text">MTN</span>
+                                    <span class="logo-sub">Zambia</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="logo-container">
+                                <img src="/assets/logo/airtel money.png" alt="Airtel Zambia" class="institution-logo" loading="lazy">
+                                <div class="logo-fallback">
+                                    <span class="logo-text">Airtel</span>
+                                    <span class="logo-sub">Zambia</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="logo-container">
+                                <img src="/assets/logo/zamtel logo.png" alt="Zamtel" class="institution-logo" loading="lazy">
+                                <div class="logo-fallback">
+                                    <span class="logo-text">Zamtel</span>
+                                    <span class="logo-sub">Zambia</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="logo-container">
+                                <img src="/assets/logo/zicta logo.png" alt="ZICTA - Zambia Information and Communication Technology Authority" class="institution-logo" loading="lazy">
+                                <div class="logo-fallback">
+                                    <span class="logo-text">ZICTA</span>
+                                    <span class="logo-sub">Regulator</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="logo-container">
+                                <img src="/assets/logo/zambia police logo.png" alt="Zambia Police Service" class="institution-logo" loading="lazy">
+                                <div class="logo-fallback">
+                                    <span class="logo-text">Zambia</span>
+                                    <span class="logo-sub">Police</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="faq-item">
-                    <h3>How do I report scammers?</h3>
-                    <p>You can report scammers through our detailed intake form or by contacting us directly. We'll guide you through the process and gather all necessary information.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>What is the procedure for making a report?</h3>
-                    <p>Contact us with as much detail as possible about the scam, including transaction records, communications, and personal information. Our experts will take it from there.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>How long does recovery take?</h3>
-                    <p>Recovery timelines vary depending on the complexity of your case. We'll provide you with an estimated timeline during your initial assessment.</p>
+                <p class="disclaimer-text">
+                    <strong>Note:</strong> Zatcher operates as an independent reporting platform. We are not affiliated with, endorsed by, or officially partnered with the organizations shown above. Logos are displayed for informational purposes only to indicate the types of institutions that may be relevant to fraud reports.
+                </p>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="services">
+            <div class="container">
+                <h2>Platform Features</h2>
+                <p class="section-subtitle">Comprehensive tools to support your fraud reporting journey</p>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <div class="service-icon">📝</div>
+                        <h3>Fraud Reporting</h3>
+                        <p>Submit detailed fraud incident reports through our secure online form. Include transaction details, communications, and other relevant information.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">📁</div>
+                        <h3>Evidence Upload</h3>
+                        <p>Securely upload screenshots, documents, and other digital evidence. All files are encrypted and assigned unique checksums for integrity verification.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">📊</div>
+                        <h3>Case Tracking</h3>
+                        <p>Monitor your case status in real-time. Receive updates as your report progresses through review, investigation, and resolution stages.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">📚</div>
+                        <h3>Fraud Awareness</h3>
+                        <p>Access educational resources about common scam types, prevention strategies, and how to protect yourself from future incidents.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🔍</div>
+                        <h3>Case Analysis</h3>
+                        <p>Our technical analysts review submitted evidence using pattern recognition tools to identify scam indicators and build comprehensive case files.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">📤</div>
+                        <h3>Evidence Export</h3>
+                        <p>Verified case files can be exported in standardized formats suitable for submission to relevant authorities and financial institutions.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2>Get in Touch</h2>
-            <p class="contact-intro">Ready to take back control? Contact us today for a free consultation.</p>
-            <div class="contact-info">
-                <div class="contact-item">
-                    <h3> ✉️Email</h3>
-                    <p><a href="mailto:zatcher@gmail.com">zatcher@gmail.com</a></p>
-                </div>
-                <div class="contact-item">
-                    <h3>📞 Phone</h3>
-                    <p><a href="tel:+260 969 102 041 ">+260 969 102 041 </a></p>
-                </div>
-                <div class="contact-item">
-                    <h3>⏱️ Response Time</h3>
-                    <p>We aim to respond within 24 hours</p>
+        <!-- How Reporting Works - Timeline Section -->
+        <section id="how-it-works" class="how-it-works">
+            <div class="container">
+                <h2>How Reporting Works</h2>
+                <p class="section-subtitle">A transparent process from report submission to resolution</p>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-number">1</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Create an Account</h3>
+                            <p>Register with your email address to create a secure account. Your identity is kept confidential throughout the process.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-number">2</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Submit Your Report</h3>
+                            <p>Complete the fraud report form with details about the incident, including dates, amounts, platform used (MTN/Airtel/Zamtel), and description of events.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-number">3</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Upload Evidence</h3>
+                            <p>Attach supporting documents such as transaction screenshots, chat logs, phone records, or any other relevant digital evidence.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-number">4</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Initial Review</h3>
+                            <p>Our team reviews your submission within 24 hours to ensure all necessary information is provided and assigns a case reference number.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-number">5</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Investigation</h3>
+                            <p>Technical analysts examine the evidence, identify patterns, and build a comprehensive case file. You can track progress from your dashboard.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-number">6</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Case Resolution</h3>
+                            <p>Upon completion, you'll receive a summary of findings. Verified case files can be exported for submission to appropriate authorities.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- Why Report Early Section -->
+        <section class="why-report">
+            <div class="container">
+                <h2>Why Report Fraud Early</h2>
+                <p class="section-subtitle">Timely reporting increases the effectiveness of fraud response</p>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">⚡</div>
+                        <h3>Faster Response</h3>
+                        <p>Early reporting enables quicker action to flag suspicious accounts and potentially freeze transactions before funds are moved.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🔗</div>
+                        <h3>Pattern Recognition</h3>
+                        <p>Your report contributes to identifying scam patterns, helping protect others from falling victim to the same schemes.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">📋</div>
+                        <h3>Better Documentation</h3>
+                        <p>Fresh memories and readily available evidence lead to more complete and accurate incident reports.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🌐</div>
+                        <h3>Community Protection</h3>
+                        <p>Each report helps build a database of scam tactics, enabling better awareness campaigns and preventive measures.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Common Fraud Types Section -->
+        <section class="fraud-types">
+            <div class="container">
+                <h2>Common Fraud Types in Zambia</h2>
+                <p class="section-subtitle">Understanding these scams helps you recognize and avoid them</p>
+                <div class="fraud-grid">
+                    <div class="fraud-card">
+                        <h3>Mobile Money Fake Promotions</h3>
+                        <p>Scammers send messages claiming you've won a prize or bonus. They request your PIN or personal details to "verify" your identity and steal your funds.</p>
+                        <div class="fraud-tags">
+                            <span class="tag">MTN</span>
+                            <span class="tag">Airtel</span>
+                            <span class="tag">Zamtel</span>
+                        </div>
+                    </div>
+                    <div class="fraud-card">
+                        <h3>Impersonation Scams</h3>
+                        <p>Fraudsters pose as bank officials, telecom company representatives, or government agents to trick you into revealing sensitive information.</p>
+                        <div class="fraud-tags">
+                            <span class="tag">Phone</span>
+                            <span class="tag">SMS</span>
+                        </div>
+                    </div>
+                    <div class="fraud-card">
+                        <h3>QR Code Fraud</h3>
+                        <p>Fake QR codes are placed over legitimate ones at businesses. Scanning them directs payments to the scammer's account instead.</p>
+                        <div class="fraud-tags">
+                            <span class="tag">QR</span>
+                            <span class="tag">Payments</span>
+                        </div>
+                    </div>
+                    <div class="fraud-card">
+                        <h3>Loan App Scams</h3>
+                        <p>Fraudulent loan applications request upfront fees or access to your contacts, then use this information for blackmail or theft.</p>
+                        <div class="fraud-tags">
+                            <span class="tag">Apps</span>
+                            <span class="tag">Loans</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Privacy & Security Section -->
+        <section class="privacy-security">
+            <div class="container">
+                <h2>Privacy & Security Commitment</h2>
+                <p class="section-subtitle">Your data protection is our top priority</p>
+                <div class="security-grid">
+                    <div class="security-card">
+                        <div class="security-icon">🔐</div>
+                        <h3>End-to-End Encryption</h3>
+                        <p>All data transmitted through our platform is encrypted using industry-standard TLS protocols.</p>
+                    </div>
+                    <div class="security-card">
+                        <div class="security-icon">🛡️</div>
+                        <h3>Secure Storage</h3>
+                        <p>Evidence files are stored with SHA-256 checksums and access controls to maintain chain of custody.</p>
+                    </div>
+                    <div class="security-card">
+                        <div class="security-icon">👤</div>
+                        <h3>Confidential Reporting</h3>
+                        <p>Your identity is protected. Information is only shared with authorized personnel on a need-to-know basis.</p>
+                    </div>
+                    <div class="security-card">
+                        <div class="security-icon">📝</div>
+                        <h3>Audit Logging</h3>
+                        <p>Every action on your case is logged to ensure accountability and maintain evidence integrity.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Impact Gallery -->
+        <section class="impact">
+            <div class="container">
+                <h2>Our Impact</h2>
+                <div class="image-gallery">
+                    <div class="image-item">
+                        <img src="/assets/Screenshot 2026-05-10 115105.png" alt="Fraud awareness education materials showing common scam types">
+                        <p>Education & Awareness - Empowering citizens with knowledge to recognize and avoid scams</p>
+                    </div>
+                    <div class="image-item">
+                        <img src="/assets/fraud.jpg" alt="Digital security and fraud prevention concept">
+                        <p>Fraud Prevention - Working to reduce fraud incidents through better reporting and awareness</p>
+                    </div>
+                    <div class="image-item">
+                        <img src="/assets/confident-black-lady-sitting-holding-wad-cash-isolated-background.jpg" alt="Person confidently managing their finances">
+                        <p>Financial Security - Helping victims regain control through proper documentation and case tracking</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="faq">
+            <div class="container">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h3>How do I create an account?</h3>
+                        <p>Click the "Register" button and fill out the registration form with your email address and a secure password. You'll receive a confirmation email to verify your account.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>What information do I need to report fraud?</h3>
+                        <p>Gather as much detail as possible: transaction dates and amounts, phone numbers involved, screenshots of messages or conversations, and any other relevant documentation.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Is my identity kept confidential?</h3>
+                        <p>Yes. We treat all reports with strict confidentiality. Your personal information is only accessible to authorized analysts working on your case.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>How long does the investigation process take?</h3>
+                        <p>Investigation timelines vary based on case complexity and available evidence. Simple cases may be reviewed within days, while complex investigations can take weeks. You'll receive updates through your dashboard.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Can I track my case progress?</h3>
+                        <p>Yes. Once logged in, you can view your case dashboard to see real-time status updates, analyst notes, and any requested additional information.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>What happens after my case is investigated?</h3>
+                        <p>You'll receive a summary of findings. If the case is verified, you can export the evidence package in a standardized format for submission to relevant authorities or financial institutions.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Is there a cost to use Zatcher?</h3>
+                        <p>Zatcher is currently available as a free service to help combat fraud in Zambia. There are no charges for reporting incidents or tracking case progress.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>What file types can I upload as evidence?</h3>
+                        <p>We accept screenshots (PNG, JPG), documents (PDF), and text files. Each file must be under 10MB. All uploads are scanned for security before being stored.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Get in Touch</h2>
+                <p class="contact-intro">Have questions or need assistance? We're here to help.</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">✉️</div>
+                        <h3>Email</h3>
+                        <p><a href="mailto:zatcher@gmail.com">zatcher@gmail.com</a></p>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <h3>Phone</h3>
+                        <p><a href="tel:+260969102041">+260 969 102 041</a></p>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">⏱️</div>
+                        <h3>Response Time</h3>
+                        <p>We aim to respond within 24 hours</p>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <h3>Location</h3>
+                        <p>Kitwe, Zambia</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 Zatcher. All rights reserved. Restoring what was taken, one victory at a time.</p>
-            <p class="footer-tagline">Your trusted partner in fraud recovery</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Zatcher</h3>
+                    <p>A fraud reporting and case management platform for Zambia.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Account</h4>
+                    <ul>
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="register.html">Register</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Zatcher. All rights reserved.</p>
+                <p class="footer-disclaimer">Zatcher is an independent fraud reporting platform. We are not affiliated with any government agency, telecommunications company, or financial institution.</p>
+            </div>
         </div>
     </footer>
 
+    <!-- JavaScript for Mobile Menu, Smooth Scroll, and Logo Fallback -->
+    <script>
+        // Mobile Menu Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    navLinks.classList.toggle('active');
+                    this.classList.toggle('active');
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+                        navLinks.classList.remove('active');
+                        menuToggle.classList.remove('active');
+                        menuToggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+
+                // Close menu when clicking a link
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        navLinks.classList.remove('active');
+                        menuToggle.classList.remove('active');
+                        menuToggle.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            }
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Logo Image Fallback - Show text if image fails to load
+            document.querySelectorAll('.institution-logo').forEach(function(img) {
+                img.addEventListener('error', function() {
+                    this.closest('.logo-container').classList.add('has-error');
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login to your Zatcher account to access your fraud reports and case dashboard.">
+    <title>Login - Zatcher</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body class="placeholder-page">
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html" aria-label="Zatcher Home">
+                    <h2>Zatcher</h2>
+                    <p class="tagline">Fraud Reporting Platform</p>
+                </a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="login.html" class="nav-btn login-btn">Login</a></li>
+                <li><a href="register.html" class="nav-btn register-btn">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="placeholder-content">
+        <div class="placeholder-card">
+            <div class="placeholder-icon">🔒</div>
+            <h1>Login Coming Soon</h1>
+            <p>
+                The secure login portal is currently under development and will be available in a future release. 
+                We are implementing industry-standard security measures to protect your data.
+            </p>
+            <p>
+                Need immediate assistance? Contact us at <strong>zatcher@gmail.com</strong> or call 
+                <strong>+260 969 102 041</strong>.
+            </p>
+            <a href="index.html" class="back-btn">Back to Home</a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="placeholder-footer">
+        <p>&copy; 2026 Zatcher. All rights reserved. | <a href="index.html" style="color: rgba(255,255,255,0.7);">Home</a></p>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    navLinks.classList.toggle('active');
+                    this.classList.toggle('active');
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+                        navLinks.classList.remove('active');
+                        menuToggle.classList.remove('active');
+                        menuToggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
