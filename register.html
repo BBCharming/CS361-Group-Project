@@ -7,7 +7,7 @@
     <title>Register - Zatcher</title>
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
-<body class="placeholder-page">
+<body class="auth-page">
     <!-- Navigation -->
     <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="nav-container">
@@ -32,19 +32,78 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="placeholder-content">
-        <div class="placeholder-card">
-            <div class="placeholder-icon">🚧</div>
-            <h1>Registration Coming Soon</h1>
-            <p>
-                User registration is currently under development and will be available in a future release. 
-                Our team is working to bring you a secure and seamless registration experience.
-            </p>
-            <p>
-                In the meantime, you can contact us directly at <strong>zatcher@gmail.com</strong> or call 
-                <strong>+260 969 102 041</strong> for assistance with fraud reporting.
-            </p>
-            <a href="index.html" class="back-btn">Back to Home</a>
+    <main class="auth-content">
+        <div class="auth-card">
+            <div class="auth-intro">
+                <span class="auth-badge">Secure • Trusted • Fast</span>
+                <h1>Create your Zatcher account</h1>
+                <p>Join the platform built for reporting fraud cases, tracking evidence, and connecting with the right support channels.</p>
+                <ul class="auth-benefits">
+                    <li>Secure account creation with verified access</li>
+                    <li>Track incident reports in one place</li>
+                    <li>Receive updates on case progress</li>
+                </ul>
+            </div>
+
+            <div class="auth-form-panel">
+                <form class="auth-form" novalidate>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full name</label>
+                            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="role">Role</label>
+                            <select id="role" name="role" required>
+                                <option value="victim">Victim / Reporter</option>
+                                <option value="analyst">Analyst</option>
+                                <option value="police">Police / Investigator</option>
+                                <option value="administrator">Administrator</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+260 9xx xxx xxx">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" minlength="8" placeholder="At least 8 characters" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm password</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" minlength="8" placeholder="Re-enter your password" required>
+                        </div>
+                    </div>
+
+                    <label class="checkbox-row">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <span>I agree to the terms of service and privacy policy.</span>
+                    </label>
+
+                    <button type="submit" class="submit-btn">Create account</button>
+                    <p class="form-message" role="status" aria-live="polite"></p>
+                    <p class="form-footer">Already have an account? <a href="login.html">Sign in</a></p>
+                </form>
+            </div>
         </div>
     </main>
 
@@ -53,7 +112,8 @@
         <p>&copy; 2026 Zatcher. All rights reserved. | <a href="index.html" style="color: rgba(255,255,255,0.7);">Home</a></p>
     </footer>
 
-    <!-- JavaScript for Mobile Menu -->
+    <!-- JavaScript -->
+    <script src="/assets/js/validate.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const menuToggle = document.querySelector('.mobile-menu-toggle');
@@ -67,7 +127,6 @@
                     this.classList.toggle('active');
                 });
 
-                // Close menu when clicking outside
                 document.addEventListener('click', function(e) {
                     if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
                         navLinks.classList.remove('active');
