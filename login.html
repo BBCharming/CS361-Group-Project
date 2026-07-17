@@ -200,6 +200,7 @@
                     navLinks.classList.toggle('active');
                     this.classList.toggle('active');
                 });
+
                 document.addEventListener('click', function(e) {
                     if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
                         navLinks.classList.remove('active');
@@ -222,6 +223,40 @@
                 }
                 message.textContent = 'Logged in. Redirecting to your dashboard…';
                 message.className = 'form-message success';
+            });
+
+            const form = document.getElementById('loginForm');
+            const message = document.getElementById('formMessage');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value.trim();
+                const normalizedUser = username.toLowerCase();
+
+                if (!username || !password) {
+                    message.textContent = 'Please enter both your username and password.';
+                    message.className = 'form-message error';
+                    return;
+                }
+
+                if (normalizedUser === 'police' && password === 'police123') {
+                    message.textContent = 'Signing you in to the police dashboard...';
+                    message.className = 'form-message success';
+                    window.location.href = '/police-dashboard.html';
+                    return;
+                }
+
+                if (normalizedUser === 'zicta' && password === 'zicta123') {
+                    message.textContent = 'Signing you in to the ZICTA dashboard...';
+                    message.className = 'form-message success';
+                    window.location.href = '/zicta-dashboard.html';
+                    return;
+                }
+
+                message.textContent = 'Invalid username or password. Use the demo credentials shown below.';
+                message.className = 'form-message error';
             });
         });
     </script>

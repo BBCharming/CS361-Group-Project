@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Police Dashboard</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body class="dashboard-page">
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html" aria-label="Zatcher Home">
+                    <h2>Zatcher</h2>
+                    <p class="tagline">Police Case Operations</p>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="dashboard-shell">
+        <section class="dashboard-header">
+            <div>
+                <p class="dashboard-eyebrow">Investigation Desk</p>
+                <h1>Police Dashboard</h1>
+                <p class="dashboard-subtitle">Monitor assigned cases by priority and manage evidence with chain-of-custody tracking.</p>
+            </div>
+        </section>
+
+        <section class="stats-grid">
+            <article class="stat-card stat-card-primary">
+                <h3>High priority cases</h3>
+                <p class="stat-number">6</p>
+                <span>Need follow-up today</span>
+            </article>
+            <article class="stat-card stat-card-accent">
+                <h3>Evidence files</h3>
+                <p class="stat-number">18</p>
+                <span>Uploaded and reviewed</span>
+            </article>
+            <article class="stat-card stat-card-success">
+                <h3>Custody logs</h3>
+                <p class="stat-number">24</p>
+                <span>Chain of custody entries</span>
+            </article>
+        </section>
+
+        <section class="dashboard-section">
+            <div class="section-title-row">
+                <h2>Assigned Cases by Priority</h2>
+                <span class="status-pill">Daily workload</span>
+            </div>
+            <form class="entry-form">
+                <div class="form-row">
+                    <label>Case No.
+                        <input type="text" placeholder="CF-204">
+                    </label>
+                    <label>Subject
+                        <input type="text" placeholder="Fraud suspect name">
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>Priority
+                        <select>
+                            <option>High</option>
+                            <option selected>Medium</option>
+                            <option>Low</option>
+                        </select>
+                    </label>
+                    <label>Assigned officer
+                        <input type="text" placeholder="Officer name">
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>Status
+                        <select>
+                            <option selected>Active</option>
+                            <option>Pending</option>
+                            <option>Escalated</option>
+                        </select>
+                    </label>
+                    <label>Next action
+                        <input type="text" placeholder="Interview witness">
+                    </label>
+                </div>
+                <button type="submit" class="cta-button">Save case</button>
+            </form>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Case No.</th>
+                        <th>Subject</th>
+                        <th>Priority</th>
+                        <th>Assigned officer</th>
+                        <th>Status</th>
+                        <th>Next action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CF-201</td>
+                        <td>Anonymous scam network</td>
+                        <td><span class="priority priority-high">High</span></td>
+                        <td>Inspector N. Mwale</td>
+                        <td>Active</td>
+                        <td>Interview witness</td>
+                    </tr>
+                    <tr>
+                        <td>CF-202</td>
+                        <td>Mobile money fraud</td>
+                        <td><span class="priority priority-medium">Medium</span></td>
+                        <td>Officer B. Phiri</td>
+                        <td>Pending</td>
+                        <td>Collect statements</td>
+                    </tr>
+                    <tr>
+                        <td>CF-203</td>
+                        <td>Online impersonation</td>
+                        <td><span class="priority priority-high">High</span></td>
+                        <td>Constable K. Tembo</td>
+                        <td>Escalated</td>
+                        <td>Secure digital evidence</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="dashboard-section">
+            <div class="section-title-row">
+                <h2>Evidence and Chain of Custody</h2>
+                <span class="status-pill">Forensics log</span>
+            </div>
+            <form class="entry-form">
+                <div class="form-row">
+                    <label>Evidence ID
+                        <input type="text" placeholder="EV-04">
+                    </label>
+                    <label>Description
+                        <input type="text" placeholder="Evidence description">
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>Collected by
+                        <input type="text" placeholder="Officer name">
+                    </label>
+                    <label>Stored at
+                        <input type="text" placeholder="Evidence room A">
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>Custody status
+                        <select>
+                            <option selected>Signed in</option>
+                            <option>In transit</option>
+                            <option>Verified</option>
+                        </select>
+                    </label>
+                    <label>Notes
+                        <input type="text" placeholder="Additional notes">
+                    </label>
+                </div>
+                <button type="submit" class="cta-button">Save evidence entry</button>
+            </form>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Evidence ID</th>
+                        <th>Description</th>
+                        <th>Collected by</th>
+                        <th>Stored at</th>
+                        <th>Custody status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>EV-01</td>
+                        <td>Phone extraction image</td>
+                        <td>Officer Mwale</td>
+                        <td>Evidence room A</td>
+                        <td><span class="status-badge status-success">Signed in</span></td>
+                    </tr>
+                    <tr>
+                        <td>EV-02</td>
+                        <td>Bank transaction records</td>
+                        <td>Officer Phiri</td>
+                        <td>Secure cabinet B</td>
+                        <td><span class="status-badge status-warning">In transit</span></td>
+                    </tr>
+                    <tr>
+                        <td>EV-03</td>
+                        <td>Witness statement audio</td>
+                        <td>Constable Tembo</td>
+                        <td>Digital vault</td>
+                        <td><span class="status-badge status-info">Verified</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>
