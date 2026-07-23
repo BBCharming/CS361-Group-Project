@@ -2,6 +2,8 @@
 // analyst/upload_evidence.php
 session_start();
 require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../includes/ladina_runner.php';
+require_once __DIR__ . '/../models/Evidence.php';
 
 header('Content-Type: application/json');
 
@@ -101,8 +103,34 @@ try {
         ':description'   => $description,
     ]);
 
+    $evidenceId = (int) $pdo->lastInsertId();
+
+    // Auto-run LADINA right away. If it isn't configured or the run
+    // fails, that's fine — the analyst dashboard shows this evidence as
+    // "needs analysis" and lets them retry by hand.
+    $analysisStatus = 'not_configured';
+    $analysis = null;
+
+    if (ladinaIsConfigured()) {
+        $absolutePath = realpath($destination);
+        $analysis = $absolutePath ? runLadinaAnalysis($absolutePath) : null;
+
+        if ($analysis !== null) {
+            $evidenceModel = new Evidence($pdo);
+            $evidenceModel->attachAnalysis($evidenceId, json_encode($analysis['mysql_ready'] ?? $analysis));
+            $analysisStatus = 'completed';
+        } else {
+            $analysisStatus = 'failed';
+        }
+    }
+
     http_response_code(201);
-    echo json_encode(['success' => true, 'evidence_id' => (int) $pdo->lastInsertId()]);
+    echo json_encode([
+        'success'         => true,
+        'evidence_id'     => $evidenceId,
+        'analysis_status' => $analysisStatus, // 'completed' | 'failed' | 'not_configured'
+        'analysis'        => $analysis,
+    ]);
 
 } catch (PDOException $e) {
     error_log($e->getMessage());

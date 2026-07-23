@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "source_file": "651c165cfb26ccf03a5ab96612ab1356.jpeg",
+    "analysis_timestamp": "2026-07-23T05:30:43.403471",
+    "operation": "Project Zatcher | Operation Spectre",
+    "analyst": "LADINA",
+    "engine": "gemini-2.5-flash",
+    "text_length": 337
+  },
+  "raw_text_preview": "07:52 allies @ x\n\u20ac \u00a9& 08744249399 wt\n\n2\u00bb\n\nait tt GD\n\nBlocked\nUnblock to receive messages\nfrom this sender\n\nUnblock\n\nFriday, May 1\u00bb 09:00\n\nTexting with 057 4424939 (SMS/MMS)\n\nNow you are eligible to borrow\nmoney ZMW 10,000 from\nFIKILIZA, Dial.\n*115*8*1607853*333# get your\nloan now!\n\nSending with 1 Airtel\n\n@\u00ae Airtel + Text \u00a9 & \u2018A\n\n= oO q",
+  "pre_extraction": {
+    "phones_found": [],
+    "amounts_found": [
+      "52",
+      "07",
+      "10,000",
+      "057",
+      "09"
+    ],
+    "platform_hint": "Airtel",
+    "technique_hints": [
+      "borrow",
+      "loan"
+    ]
+  },
+  "ai_intelligence": {
+    "scammer_phones": [
+      "0574424939"
+    ],
+    "scammer_names": [
+      "FIKILIZA"
+    ],
+    "victim_phones": [],
+    "platform": "Airtel",
+    "amount_requested": "10,000",
+    "amount_lost": null,
+    "scam_technique": "Fake loan offer requiring users to dial a USSD code, likely to deduct funds or collect personal information.",
+    "language_used": "English",
+    "urgency_level": "medium",
+    "threat_present": false,
+    "impersonation": "FIKILIZA, a money lending institution",
+    "key_phrases": [
+      "eligible to borrow money",
+      "FIKILIZA",
+      "get your loan now!"
+    ],
+    "confidence_score": 0.9,
+    "analyst_note": "This is a typical mobile money scam operating on the Airtel network in Zambia. The scammer sends an SMS from the number 0574424939, claiming the recipient is eligible to borrow ZMW 10,000 from 'FIKILIZA'. The message instructs the victim to dial a specific USSD code (*115*8*1607853*333#) to 'get your loan now'. This USSD code is likely designed to either register the victim for a premium service, deduct funds from their mobile money account, or extract personal information under the guise of processing a loan.",
+    "_engine": "gemini-2.5-flash"
+  },
+  "mysql_ready": {
+    "scammer_phone": "0574424939",
+    "scammer_alias": "FIKILIZA",
+    "victim_phone": null,
+    "platform": "Airtel",
+    "amount_requested": "10,000",
+    "amount_lost": null,
+    "scam_technique": "Fake loan offer requiring users to dial a USSD code, likely to deduct funds or collect personal information.",
+    "urgency_level": "medium",
+    "threat_present": false,
+    "confidence_score": 0.9,
+    "analyst_note": "This is a typical mobile money scam operating on the Airtel network in Zambia. The scammer sends an SMS from the number 0574424939, claiming the recipient is eligible to borrow ZMW 10,000 from 'FIKILIZA'. The message instructs the victim to dial a specific USSD code (*115*8*1607853*333#) to 'get your loan now'. This USSD code is likely designed to either register the victim for a premium service, deduct funds from their mobile money account, or extract personal information under the guise of processing a loan.",
+    "status": "analysed"
+  }
+}

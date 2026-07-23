@@ -7,7 +7,9 @@ function getDbConnection(): PDO {
         $host = 'localhost';
         $db   = 'zatcher_db';
         $user = 'zatcher_user';
-        $pass = 'your_password_here';
+        // Matches the ALTER USER password set while creating zatcher_user
+        // locally. If you used a different password there, update it here too.
+        $pass = 'demo12345';
         $charset = 'utf8mb4';
 
         $dsn = "mysql:host=$host;dbname=$db;charset=$charset";

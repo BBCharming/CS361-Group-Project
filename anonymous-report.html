@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Report fraud to Zatcher with no account required. Get a reference code to track your case.">
+    <title>Report Anonymously - Zatcher</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        .empty-state { text-align: center; padding: 1.5rem 1rem; color: var(--text-light); }
+        .hidden { display: none !important; }
+        .reference-box {
+            background: var(--light-bg);
+            border: 2px dashed var(--primary-color);
+            border-radius: 10px;
+            padding: 1.2rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        .reference-code {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: var(--dark-bg);
+            display: block;
+            margin: 0.4rem 0;
+        }
+        .warning-note {
+            font-size: 0.88rem;
+            color: #b42318;
+            margin-top: 0.5rem;
+        }
+        .status-result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 0.6rem;
+            margin: 0.8rem 0;
+            font-size: 0.9rem;
+        }
+        .status-result-grid dt {
+            font-weight: 700;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-dark);
+        }
+        .status-result-grid dd { margin: 0.15rem 0 0 0; color: var(--text-dark); }
+    </style>
+</head>
+<body class="auth-page">
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html" aria-label="Zatcher Home">
+                    <h2>Zatcher</h2>
+                    <p class="tagline">Fraud Reporting Platform</p>
+                </a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html" class="nav-btn login-btn">Login</a></li>
+                <li><a href="register.html" class="nav-btn register-btn">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="dashboard-shell">
+        <div class="dashboard-header">
+            <div>
+                <p class="dashboard-eyebrow">No account needed</p>
+                <h1>Report Fraud Anonymously</h1>
+                <p class="dashboard-subtitle">
+                    File a report with no login required. You'll get a reference code at the end —
+                    save it, because it's the only way to check your case status or add more evidence later.
+                </p>
+            </div>
+        </div>
+
+        <section class="dashboard-section" id="reportSection">
+            <div class="section-title-row">
+                <h2>File a Report</h2>
+            </div>
+            <form class="entry-form" id="reportForm">
+                <div class="form-row">
+                    <label>Category
+                        <select id="categoryId" required>
+                            <option value="" disabled selected>Select a category</option>
+                            <option value="1">Phishing</option>
+                            <option value="2">Mobile Money Fraud</option>
+                            <option value="3">Account Takeover</option>
+                            <option value="4">Social Media Scam</option>
+                            <option value="5">Fake Investment Scam</option>
+                        </select>
+                    </label>
+                    <label>Title
+                        <input type="text" id="title" placeholder="Short summary of what happened" required maxlength="150">
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label style="flex: 1 1 100%;">Description
+                        <textarea id="description" rows="4" placeholder="What happened, when, and how" required></textarea>
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>Suspect phone (optional)
+                        <input type="text" id="suspectPhone" placeholder="+260 ...">
+                    </label>
+                    <label>Suspect email (optional)
+                        <input type="email" id="suspectEmail" placeholder="scammer@example.com">
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>Transaction ID (optional)
+                        <input type="text" id="transactionId" placeholder="If a payment was involved">
+                    </label>
+                    <label>Evidence type
+                        <select id="evidenceType">
+                            <option value="Screenshot">Screenshot</option>
+                            <option value="Document">Document</option>
+                            <option value="Email">Email</option>
+                            <option value="Transaction Receipt">Transaction Receipt</option>
+                            <option value="Other" selected>Other</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label style="flex: 1 1 100%;">Evidence file (optional — image or PDF, max 5MB)
+                        <input type="file" id="evidenceFile" accept="image/jpeg,image/png,image/webp,application/pdf">
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">Submit report</button>
+                <p class="form-message" id="reportMessage"></p>
+            </form>
+
+            <div class="reference-box hidden" id="referenceBox">
+                <span>Your reference code</span>
+                <span class="reference-code" id="referenceCodeDisplay"></span>
+                <p class="warning-note">Save this now — it's the only way to check your case status or add evidence later. There's no account to recover it from.</p>
+            </div>
+        </section>
+
+        <section class="dashboard-section">
+            <div class="section-title-row">
+                <h2>Check Report Status</h2>
+                <span class="status-pill">No login needed</span>
+            </div>
+            <form class="entry-form" id="statusForm">
+                <div class="form-row">
+                    <label>Reference code
+                        <input type="text" id="statusReferenceCode" placeholder="ZR-XXXXXXXX" required>
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn">Check status</button>
+                <p class="form-message" id="statusMessage"></p>
+            </form>
+            <dl class="status-result-grid hidden" id="statusResultGrid"></dl>
+
+            <div class="hidden" id="addEvidenceSection" style="margin-top: 1rem;">
+                <h3>Add more evidence to this report</h3>
+                <form class="entry-form" id="addEvidenceForm">
+                    <div class="form-row">
+                        <label>Evidence type
+                            <select id="addEvidenceType">
+                                <option value="Screenshot">Screenshot</option>
+                                <option value="Document">Document</option>
+                                <option value="Email">Email</option>
+                                <option value="Transaction Receipt">Transaction Receipt</option>
+                                <option value="Other" selected>Other</option>
+                            </select>
+                        </label>
+                        <label>File
+                            <input type="file" id="addEvidenceFile" accept="image/jpeg,image/png,image/webp,application/pdf" required>
+                        </label>
+                    </div>
+                    <button type="submit" class="submit-btn">Upload evidence</button>
+                    <p class="form-message" id="addEvidenceMessage"></p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="placeholder-footer">
+        <p>&copy; 2026 Zatcher. All rights reserved. | <a href="index.html" style="color: rgba(255,255,255,0.7);">Home</a></p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', function () {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    navLinks.classList.toggle('active');
+                    this.classList.toggle('active');
+                });
+            }
+
+            function escapeHtml(str) {
+                const div = document.createElement('div');
+                div.textContent = str == null ? '' : String(str);
+                return div.innerHTML;
+            }
+
+            function statusBadgeClass(status) {
+                if (status === 'pending') return 'status-warning';
+                if (status === 'investigating') return 'status-info';
+                return 'status-success';
+            }
+
+            // ---- file a report ----
+            const reportForm = document.getElementById('reportForm');
+            const reportMessage = document.getElementById('reportMessage');
+            const submitBtn = document.getElementById('submitBtn');
+            const referenceBox = document.getElementById('referenceBox');
+            const referenceCodeDisplay = document.getElementById('referenceCodeDisplay');
+
+            reportForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const formData = new FormData();
+                formData.append('category_id', document.getElementById('categoryId').value);
+                formData.append('title', document.getElementById('title').value.trim());
+                formData.append('description', document.getElementById('description').value.trim());
+                formData.append('suspect_phone', document.getElementById('suspectPhone').value.trim());
+                formData.append('suspect_email', document.getElementById('suspectEmail').value.trim());
+                formData.append('transaction_id', document.getElementById('transactionId').value.trim());
+                formData.append('evidence_type', document.getElementById('evidenceType').value);
+
+                const fileInput = document.getElementById('evidenceFile');
+                if (fileInput.files.length > 0) {
+                    formData.append('evidence_file', fileInput.files[0]);
+                }
+
+                submitBtn.disabled = true;
+                reportMessage.textContent = 'Submitting…';
+                reportMessage.className = 'form-message';
+
+                fetch('victim/report_anonymous.php', {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+                    .then(function (result) {
+                        submitBtn.disabled = false;
+                        if (result.ok && result.data.success) {
+                            reportMessage.textContent = 'Report submitted.';
+                            reportMessage.className = 'form-message success';
+                            referenceCodeDisplay.textContent = result.data.reference_code;
+                            referenceBox.classList.remove('hidden');
+                            reportForm.reset();
+                        } else {
+                            reportMessage.textContent = result.data.error || 'Could not submit your report.';
+                            reportMessage.className = 'form-message error';
+                        }
+                    })
+                    .catch(function () {
+                        submitBtn.disabled = false;
+                        reportMessage.textContent = 'Network error — please try again.';
+                        reportMessage.className = 'form-message error';
+                    });
+            });
+
+            // ---- check status ----
+            const statusForm = document.getElementById('statusForm');
+            const statusMessage = document.getElementById('statusMessage');
+            const statusResultGrid = document.getElementById('statusResultGrid');
+            const addEvidenceSection = document.getElementById('addEvidenceSection');
+            let activeReferenceCode = null;
+
+            statusForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const code = document.getElementById('statusReferenceCode').value.trim();
+
+                statusMessage.textContent = 'Checking…';
+                statusMessage.className = 'form-message';
+                statusResultGrid.classList.add('hidden');
+                addEvidenceSection.classList.add('hidden');
+
+                fetch('victim/check_status.php?reference_code=' + encodeURIComponent(code), { cache: 'no-store' })
+                    .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+                    .then(function (result) {
+                        if (result.ok && result.data.success) {
+                            const inc = result.data.incident;
+                            statusMessage.textContent = '';
+                            statusResultGrid.innerHTML =
+                                '<div><dt>Title</dt><dd>' + escapeHtml(inc.title) + '</dd></div>' +
+                                '<div><dt>Category</dt><dd>' + escapeHtml(inc.category_name) + '</dd></div>' +
+                                '<div><dt>Status</dt><dd><span class="status-badge ' + statusBadgeClass(inc.incident_status) + '">' + escapeHtml(inc.incident_status) + '</span></dd></div>' +
+                                '<div><dt>Evidence on file</dt><dd>' + inc.evidence_count + '</dd></div>' +
+                                '<div><dt>Filed</dt><dd>' + escapeHtml(inc.created_at) + '</dd></div>' +
+                                '<div><dt>Last updated</dt><dd>' + escapeHtml(inc.updated_at) + '</dd></div>';
+                            statusResultGrid.classList.remove('hidden');
+                            addEvidenceSection.classList.remove('hidden');
+                            activeReferenceCode = code;
+                        } else {
+                            statusMessage.textContent = result.data.error || 'Could not find that reference code.';
+                            statusMessage.className = 'form-message error';
+                        }
+                    })
+                    .catch(function () {
+                        statusMessage.textContent = 'Network error — please try again.';
+                        statusMessage.className = 'form-message error';
+                    });
+            });
+
+            // ---- add evidence to an existing anonymous report ----
+            const addEvidenceForm = document.getElementById('addEvidenceForm');
+            const addEvidenceMessage = document.getElementById('addEvidenceMessage');
+
+            addEvidenceForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                if (!activeReferenceCode) return;
+
+                const fileInput = document.getElementById('addEvidenceFile');
+                if (fileInput.files.length === 0) {
+                    addEvidenceMessage.textContent = 'Choose a file first.';
+                    addEvidenceMessage.className = 'form-message error';
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('reference_code', activeReferenceCode);
+                formData.append('evidence_type', document.getElementById('addEvidenceType').value);
+                formData.append('evidence_file', fileInput.files[0]);
+
+                addEvidenceMessage.textContent = 'Uploading…';
+                addEvidenceMessage.className = 'form-message';
+
+                fetch('victim/upload_evidence_anonymous.php', {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+                    .then(function (result) {
+                        if (result.ok && result.data.success) {
+                            addEvidenceMessage.textContent = 'Evidence uploaded.';
+                            addEvidenceMessage.className = 'form-message success';
+                            addEvidenceForm.reset();
+                        } else {
+                            addEvidenceMessage.textContent = result.data.error || 'Upload failed.';
+                            addEvidenceMessage.className = 'form-message error';
+                        }
+                    })
+                    .catch(function () {
+                        addEvidenceMessage.textContent = 'Network error — please try again.';
+                        addEvidenceMessage.className = 'form-message error';
+                    });
+            });
+        });
+    </script>
+</body>
+</html>

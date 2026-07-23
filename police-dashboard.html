@@ -3,8 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Police Dashboard</title>
+    <meta name="description" content="Zatcher Police Dashboard - Review verified fraud cases and export evidence.">
+    <title>Police Dashboard - Zatcher</title>
     <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        .empty-state { text-align: center; padding: 2rem 1rem; color: var(--text-light); }
+        .hidden { display: none !important; }
+        .evidence-card {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.9rem;
+            background: var(--light-bg);
+        }
+        .evidence-meta { color: var(--text-light); font-size: 0.85rem; }
+        .case-detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.6rem;
+            margin: 0.8rem 0 1.2rem 0;
+            font-size: 0.9rem;
+        }
+        .case-detail-grid dt {
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .case-detail-grid dd { margin: 0.15rem 0 0 0; color: var(--text-dark); }
+        .view-btn {
+            background: none;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .view-btn:hover { background: var(--primary-color); color: var(--white); }
+        .cta-button:disabled { opacity: 0.6; cursor: wait; }
+    </style>
 </head>
 <body class="dashboard-page">
     <nav class="navbar" role="navigation" aria-label="Main navigation">
@@ -15,9 +55,12 @@
                     <p class="tagline">Police Case Operations</p>
                 </a>
             </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="hamburger"></span>
+            </button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="login.html">Login</a></li>
+                <li><a href="#" class="nav-btn login-btn" id="logoutBtn">Log out</a></li>
             </ul>
         </div>
     </nav>
@@ -27,179 +70,236 @@
             <div>
                 <p class="dashboard-eyebrow">Investigation Desk</p>
                 <h1>Police Dashboard</h1>
-                <p class="dashboard-subtitle">Monitor assigned cases by priority and manage evidence with chain-of-custody tracking.</p>
+                <p class="dashboard-subtitle">Verified cases handed over by analysts, with full evidence trail and XML export for records.</p>
+            </div>
+            <div class="dashboard-actions">
+                <button id="refreshBtn" class="secondary-button">Refresh now</button>
             </div>
         </section>
 
         <section class="stats-grid">
             <article class="stat-card stat-card-primary">
-                <h3>High priority cases</h3>
-                <p class="stat-number">6</p>
-                <span>Need follow-up today</span>
+                <h3>Pending</h3>
+                <p class="stat-number" id="statPending">—</p>
+                <span>not yet with police</span>
             </article>
             <article class="stat-card stat-card-accent">
-                <h3>Evidence files</h3>
-                <p class="stat-number">18</p>
-                <span>Uploaded and reviewed</span>
+                <h3>Investigating</h3>
+                <p class="stat-number" id="statInvestigating">—</p>
+                <span>with analysts now</span>
             </article>
             <article class="stat-card stat-card-success">
-                <h3>Custody logs</h3>
-                <p class="stat-number">24</p>
-                <span>Chain of custody entries</span>
+                <h3>Verified</h3>
+                <p class="stat-number" id="statVerified">—</p>
+                <span>resolved or closed — ready for you</span>
             </article>
         </section>
 
         <section class="dashboard-section">
             <div class="section-title-row">
-                <h2>Assigned Cases by Priority</h2>
-                <span class="status-pill">Daily workload</span>
+                <h2>Verified Cases</h2>
+                <span class="status-pill" id="caseCountPill">Loading…</span>
             </div>
-            <form class="entry-form">
-                <div class="form-row">
-                    <label>Case No.
-                        <input type="text" placeholder="CF-204">
-                    </label>
-                    <label>Subject
-                        <input type="text" placeholder="Fraud suspect name">
-                    </label>
-                </div>
-                <div class="form-row">
-                    <label>Priority
-                        <select>
-                            <option>High</option>
-                            <option selected>Medium</option>
-                            <option>Low</option>
-                        </select>
-                    </label>
-                    <label>Assigned officer
-                        <input type="text" placeholder="Officer name">
-                    </label>
-                </div>
-                <div class="form-row">
-                    <label>Status
-                        <select>
-                            <option selected>Active</option>
-                            <option>Pending</option>
-                            <option>Escalated</option>
-                        </select>
-                    </label>
-                    <label>Next action
-                        <input type="text" placeholder="Interview witness">
-                    </label>
-                </div>
-                <button type="submit" class="cta-button">Save case</button>
-            </form>
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Case No.</th>
-                        <th>Subject</th>
-                        <th>Priority</th>
-                        <th>Assigned officer</th>
+                        <th>Case</th>
+                        <th>Category</th>
                         <th>Status</th>
-                        <th>Next action</th>
+                        <th>Last updated</th>
+                        <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>CF-201</td>
-                        <td>Anonymous scam network</td>
-                        <td><span class="priority priority-high">High</span></td>
-                        <td>Inspector N. Mwale</td>
-                        <td>Active</td>
-                        <td>Interview witness</td>
-                    </tr>
-                    <tr>
-                        <td>CF-202</td>
-                        <td>Mobile money fraud</td>
-                        <td><span class="priority priority-medium">Medium</span></td>
-                        <td>Officer B. Phiri</td>
-                        <td>Pending</td>
-                        <td>Collect statements</td>
-                    </tr>
-                    <tr>
-                        <td>CF-203</td>
-                        <td>Online impersonation</td>
-                        <td><span class="priority priority-high">High</span></td>
-                        <td>Constable K. Tembo</td>
-                        <td>Escalated</td>
-                        <td>Secure digital evidence</td>
-                    </tr>
+                <tbody id="casesTableBody">
+                    <tr><td colspan="5" class="empty-state">Loading verified cases…</td></tr>
                 </tbody>
             </table>
         </section>
 
-        <section class="dashboard-section">
+        <section class="dashboard-section hidden" id="caseDetailSection">
             <div class="section-title-row">
-                <h2>Evidence and Chain of Custody</h2>
-                <span class="status-pill">Forensics log</span>
+                <h2 id="caseDetailTitle">Case detail</h2>
+                <div>
+                    <button class="cta-button" id="exportBtn">Export XML</button>
+                    <button class="view-btn" id="closeDetailBtn">Close</button>
+                </div>
             </div>
-            <form class="entry-form">
-                <div class="form-row">
-                    <label>Evidence ID
-                        <input type="text" placeholder="EV-04">
-                    </label>
-                    <label>Description
-                        <input type="text" placeholder="Evidence description">
-                    </label>
-                </div>
-                <div class="form-row">
-                    <label>Collected by
-                        <input type="text" placeholder="Officer name">
-                    </label>
-                    <label>Stored at
-                        <input type="text" placeholder="Evidence room A">
-                    </label>
-                </div>
-                <div class="form-row">
-                    <label>Custody status
-                        <select>
-                            <option selected>Signed in</option>
-                            <option>In transit</option>
-                            <option>Verified</option>
-                        </select>
-                    </label>
-                    <label>Notes
-                        <input type="text" placeholder="Additional notes">
-                    </label>
-                </div>
-                <button type="submit" class="cta-button">Save evidence entry</button>
-            </form>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Evidence ID</th>
-                        <th>Description</th>
-                        <th>Collected by</th>
-                        <th>Stored at</th>
-                        <th>Custody status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>EV-01</td>
-                        <td>Phone extraction image</td>
-                        <td>Officer Mwale</td>
-                        <td>Evidence room A</td>
-                        <td><span class="status-badge status-success">Signed in</span></td>
-                    </tr>
-                    <tr>
-                        <td>EV-02</td>
-                        <td>Bank transaction records</td>
-                        <td>Officer Phiri</td>
-                        <td>Secure cabinet B</td>
-                        <td><span class="status-badge status-warning">In transit</span></td>
-                    </tr>
-                    <tr>
-                        <td>EV-03</td>
-                        <td>Witness statement audio</td>
-                        <td>Constable Tembo</td>
-                        <td>Digital vault</td>
-                        <td><span class="status-badge status-info">Verified</span></td>
-                    </tr>
-                </tbody>
-            </table>
+
+            <dl class="case-detail-grid" id="caseDetailGrid"></dl>
+
+            <h3>Evidence trail</h3>
+            <div id="evidenceList"></div>
         </section>
     </main>
+
+    <footer class="placeholder-footer">
+        <p>&copy; 2026 Zatcher. All rights reserved. | <a href="index.html" style="color: rgba(255,255,255,0.7);">Home</a></p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', function () {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    navLinks.classList.toggle('active');
+                    this.classList.toggle('active');
+                });
+            }
+
+            document.getElementById('logoutBtn').addEventListener('click', function (e) {
+                e.preventDefault();
+                fetch('auth/logout.php', { method: 'POST', credentials: 'same-origin' })
+                    .finally(function () { window.location.href = 'login.html'; });
+            });
+
+            const POLL_MS = 30000;
+            let currentCases = [];
+            let openIncidentId = null;
+
+            const statPending = document.getElementById('statPending');
+            const statInvestigating = document.getElementById('statInvestigating');
+            const statVerified = document.getElementById('statVerified');
+            const caseCountPill = document.getElementById('caseCountPill');
+            const casesTableBody = document.getElementById('casesTableBody');
+            const caseDetailSection = document.getElementById('caseDetailSection');
+            const caseDetailTitle = document.getElementById('caseDetailTitle');
+            const caseDetailGrid = document.getElementById('caseDetailGrid');
+            const evidenceList = document.getElementById('evidenceList');
+
+            function escapeHtml(str) {
+                const div = document.createElement('div');
+                div.textContent = str == null ? '' : String(str);
+                return div.innerHTML;
+            }
+
+            function statusBadgeClass(status) {
+                if (status === 'pending') return 'status-warning';
+                if (status === 'investigating') return 'status-info';
+                return 'status-success';
+            }
+
+            function countFor(statusCounts, status) {
+                const row = (statusCounts || []).find(function (r) { return r.incident_status === status; });
+                return row ? parseInt(row.total, 10) : 0;
+            }
+
+            function loadDashboard() {
+                fetch('police/dashboard.php', { credentials: 'same-origin', cache: 'no-store' })
+                    .then(function (res) {
+                        if (res.status === 401 || res.status === 403) {
+                            window.location.href = 'login.html';
+                            return null;
+                        }
+                        return res.json();
+                    })
+                    .then(function (data) {
+                        if (!data) return;
+                        if (!data.success) {
+                            casesTableBody.innerHTML = '<tr><td colspan="5" class="empty-state">' +
+                                escapeHtml(data.error || 'Could not load cases.') + '</td></tr>';
+                            return;
+                        }
+
+                        statPending.textContent = countFor(data.status_counts, 'pending');
+                        statInvestigating.textContent = countFor(data.status_counts, 'investigating');
+                        statVerified.textContent = countFor(data.status_counts, 'resolved') + countFor(data.status_counts, 'closed');
+
+                        currentCases = data.recent_cases || [];
+                        renderCasesTable(currentCases);
+                    })
+                    .catch(function () {
+                        casesTableBody.innerHTML = '<tr><td colspan="5" class="empty-state">Network error loading cases.</td></tr>';
+                    });
+            }
+
+            function renderCasesTable(cases) {
+                caseCountPill.textContent = cases.length + (cases.length === 1 ? ' case' : ' cases');
+
+                if (cases.length === 0) {
+                    casesTableBody.innerHTML = '<tr><td colspan="5" class="empty-state">No verified cases yet.</td></tr>';
+                    return;
+                }
+
+                casesTableBody.innerHTML = cases.map(function (c) {
+                    return '<tr>' +
+                        '<td>' + escapeHtml(c.title) + '</td>' +
+                        '<td>' + escapeHtml(c.category_name) + '</td>' +
+                        '<td><span class="status-badge ' + statusBadgeClass(c.incident_status) + '">' + escapeHtml(c.incident_status) + '</span></td>' +
+                        '<td>' + escapeHtml(c.updated_at) + '</td>' +
+                        '<td><button class="view-btn" data-incident-id="' + c.id + '">View</button></td>' +
+                        '</tr>';
+                }).join('');
+
+                casesTableBody.querySelectorAll('[data-incident-id]').forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        openIncidentId = this.getAttribute('data-incident-id');
+                        loadCaseDetail(openIncidentId);
+                    });
+                });
+            }
+
+            function loadCaseDetail(incidentId) {
+                fetch('police/evidence.php?incident_id=' + encodeURIComponent(incidentId), { credentials: 'same-origin', cache: 'no-store' })
+                    .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+                    .then(function (result) {
+                        if (!result.ok || !result.data.success) {
+                            caseDetailTitle.textContent = 'Case detail';
+                            caseDetailGrid.innerHTML = '';
+                            evidenceList.innerHTML = '<p class="empty-state">' +
+                                escapeHtml(result.data.error || 'Could not load this case.') + '</p>';
+                            caseDetailSection.classList.remove('hidden');
+                            return;
+                        }
+
+                        const inc = result.data.incident;
+                        caseDetailSection.classList.remove('hidden');
+                        caseDetailTitle.textContent = inc.title;
+
+                        caseDetailGrid.innerHTML =
+                            '<div><dt>Category</dt><dd>' + escapeHtml(inc.category_name) + '</dd></div>' +
+                            '<div><dt>Status</dt><dd><span class="status-badge ' + statusBadgeClass(inc.incident_status) + '">' + escapeHtml(inc.incident_status) + '</span></dd></div>' +
+                            '<div><dt>Reported by</dt><dd>' + escapeHtml(inc.reported_by) + '</dd></div>' +
+                            '<div><dt>Reporter phone</dt><dd>' + escapeHtml(inc.reporter_phone || '—') + '</dd></div>' +
+                            '<div><dt>Suspect phone</dt><dd>' + escapeHtml(inc.suspect_phone || '—') + '</dd></div>' +
+                            '<div><dt>Suspect email</dt><dd>' + escapeHtml(inc.suspect_email || '—') + '</dd></div>' +
+                            '<div><dt>Transaction ID</dt><dd>' + escapeHtml(inc.transaction_id || '—') + '</dd></div>' +
+                            '<div><dt>Last updated</dt><dd>' + escapeHtml(inc.updated_at) + '</dd></div>';
+
+                        const items = inc.evidence || [];
+                        if (items.length === 0) {
+                            evidenceList.innerHTML = '<p class="empty-state">No evidence attached to this case.</p>';
+                        } else {
+                            evidenceList.innerHTML = items.map(function (item) {
+                                return '<div class="evidence-card">' +
+                                    '<strong>' + escapeHtml(item.evidence_type) + '</strong>' +
+                                    '<div class="evidence-meta">' + escapeHtml(item.file_path) + ' · updated ' + escapeHtml(item.updated_at) + '</div>' +
+                                    (item.description ? '<p style="margin-top:0.5rem; white-space: pre-wrap;">' + escapeHtml(item.description) + '</p>' : '') +
+                                    '</div>';
+                            }).join('');
+                        }
+
+                        document.getElementById('exportBtn').onclick = function () {
+                            window.open('police/export_xml.php?incident_id=' + encodeURIComponent(inc.id), '_blank');
+                        };
+                    })
+                    .catch(function () {
+                        evidenceList.innerHTML = '<p class="empty-state">Network error loading case detail.</p>';
+                        caseDetailSection.classList.remove('hidden');
+                    });
+            }
+
+            document.getElementById('refreshBtn').addEventListener('click', loadDashboard);
+            document.getElementById('closeDetailBtn').addEventListener('click', function () {
+                caseDetailSection.classList.add('hidden');
+                openIncidentId = null;
+            });
+
+            loadDashboard();
+            setInterval(loadDashboard, POLL_MS);
+        });
+    </script>
 </body>
 </html>

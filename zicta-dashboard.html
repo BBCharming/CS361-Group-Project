@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZICTA Dashboard</title>
+    <meta name="description" content="Zatcher ZICTA Dashboard - Platform analytics, analyst roster, and audit trail.">
+    <title>ZICTA Dashboard - Zatcher</title>
     <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        .empty-state { text-align: center; padding: 2rem 1rem; color: var(--text-light); }
+    </style>
 </head>
 <body class="dashboard-page">
     <nav class="navbar" role="navigation" aria-label="Main navigation">
@@ -15,9 +19,12 @@
                     <p class="tagline">ZICTA Agency Operations</p>
                 </a>
             </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="hamburger"></span>
+            </button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="login.html">Login</a></li>
+                <li><a href="#" class="nav-btn login-btn" id="logoutBtn">Log out</a></li>
             </ul>
         </div>
     </nav>
@@ -27,183 +34,199 @@
             <div>
                 <p class="dashboard-eyebrow">Agency Operations</p>
                 <h1>ZICTA Dashboard</h1>
-                <p class="dashboard-subtitle">Track SIM card blocking requests and website takedown actions in one place.</p>
+                <p class="dashboard-subtitle">Platform-wide analytics, the analyst roster, and the audit trail of every case action taken.</p>
+            </div>
+            <div class="dashboard-actions">
+                <button id="refreshBtn" class="secondary-button">Refresh now</button>
             </div>
         </section>
 
         <section class="stats-grid">
             <article class="stat-card stat-card-primary">
-                <h3>Pending blocks</h3>
-                <p class="stat-number">12</p>
-                <span>Awaiting review</span>
+                <h3>Total cases</h3>
+                <p class="stat-number" id="statTotal">—</p>
+                <span>filed on the platform</span>
             </article>
             <article class="stat-card stat-card-accent">
-                <h3>Active takedowns</h3>
-                <p class="stat-number">7</p>
-                <span>Live enforcement</span>
+                <h3>Open cases</h3>
+                <p class="stat-number" id="statOpen">—</p>
+                <span>pending or investigating</span>
             </article>
             <article class="stat-card stat-card-success">
-                <h3>Completed this week</h3>
-                <p class="stat-number">28</p>
-                <span>Resolved requests</span>
+                <h3>Analysts</h3>
+                <p class="stat-number" id="statAnalysts">—</p>
+                <span>on the roster</span>
             </article>
         </section>
 
         <section class="dashboard-section">
             <div class="section-title-row">
-                <h2>SIM Card Blocking Requests</h2>
-                <span class="status-pill">Live queue</span>
+                <h2>Cases by Category</h2>
+                <span class="status-pill">Live totals</span>
             </div>
-            <form class="entry-form">
-                <div class="form-row">
-                    <label>Request ID
-                        <input type="text" placeholder="SB-1045">
-                    </label>
-                    <label>Subscriber
-                        <input type="text" placeholder="+260 97 000 0000">
-                    </label>
-                </div>
-                <div class="form-row">
-                    <label>Reason
-                        <input type="text" placeholder="Fraud investigation">
-                    </label>
-                    <label>Priority
-                        <select>
-                            <option>High</option>
-                            <option selected>Medium</option>
-                            <option>Low</option>
-                        </select>
-                    </label>
-                </div>
-                <div class="form-row">
-                    <label>Status
-                        <select>
-                            <option selected>Pending review</option>
-                            <option>Approved</option>
-                            <option>Blocked</option>
-                        </select>
-                    </label>
-                    <label>Last update
-                        <input type="text" placeholder="Current time">
-                    </label>
-                </div>
-                <button type="submit" class="cta-button">Save blocking request</button>
-            </form>
             <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Request ID</th>
-                        <th>Subscriber</th>
-                        <th>Reason</th>
-                        <th>Priority</th>
-                        <th>Status</th>
-                        <th>Last update</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>SB-1042</td>
-                        <td>+260 97 123 4567</td>
-                        <td>Fraud investigation</td>
-                        <td><span class="priority priority-high">High</span></td>
-                        <td>Pending review</td>
-                        <td>09:25</td>
-                    </tr>
-                    <tr>
-                        <td>SB-1043</td>
-                        <td>+260 96 876 5432</td>
-                        <td>Threatening messages</td>
-                        <td><span class="priority priority-medium">Medium</span></td>
-                        <td>Approved</td>
-                        <td>11:10</td>
-                    </tr>
-                    <tr>
-                        <td>SB-1044</td>
-                        <td>+260 95 333 1122</td>
-                        <td>Repeat scam activity</td>
-                        <td><span class="priority priority-high">High</span></td>
-                        <td>Blocked</td>
-                        <td>14:40</td>
-                    </tr>
+                <thead><tr><th>Category</th><th>Cases</th></tr></thead>
+                <tbody id="categoryTableBody">
+                    <tr><td colspan="2" class="empty-state">Loading…</td></tr>
                 </tbody>
             </table>
         </section>
 
         <section class="dashboard-section">
             <div class="section-title-row">
-                <h2>Website Takedown Request Tracker</h2>
-                <span class="status-pill">Enforcement monitor</span>
+                <h2>Analyst Roster</h2>
+                <span class="status-pill" id="analystCountPill">Loading…</span>
             </div>
-            <form class="entry-form">
-                <div class="form-row">
-                    <label>Case ID
-                        <input type="text" placeholder="WT-224">
-                    </label>
-                    <label>Website
-                        <input type="text" placeholder="example-scam.com">
-                    </label>
-                </div>
-                <div class="form-row">
-                    <label>Complaint type
-                        <input type="text" placeholder="Fraud advertisement">
-                    </label>
-                    <label>Target date
-                        <input type="date">
-                    </label>
-                </div>
-                <div class="form-row">
-                    <label>Status
-                        <select>
-                            <option selected>In progress</option>
-                            <option>Approved</option>
-                            <option>Escalated</option>
-                        </select>
-                    </label>
-                    <label>Owner
-                        <input type="text" placeholder="Officer name">
-                    </label>
-                </div>
-                <button type="submit" class="cta-button">Save takedown request</button>
-            </form>
             <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Case ID</th>
-                        <th>Website</th>
-                        <th>Complaint type</th>
-                        <th>Target date</th>
-                        <th>Status</th>
-                        <th>Owner</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>WT-221</td>
-                        <td>scamwire.org</td>
-                        <td>Fraud advertisement</td>
-                        <td>2026-07-16</td>
-                        <td><span class="status-badge status-warning">In progress</span></td>
-                        <td>Ms. Banda</td>
-                    </tr>
-                    <tr>
-                        <td>WT-222</td>
-                        <td>fakebankz.net</td>
-                        <td>Impersonation</td>
-                        <td>2026-07-17</td>
-                        <td><span class="status-badge status-success">Approved</span></td>
-                        <td>Mr. Chanda</td>
-                    </tr>
-                    <tr>
-                        <td>WT-223</td>
-                        <td>loanquick.xyz</td>
-                        <td>Illegal lending</td>
-                        <td>2026-07-18</td>
-                        <td><span class="status-badge status-info">Escalated</span></td>
-                        <td>Ms. Mulenga</td>
-                    </tr>
+                <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Joined</th></tr></thead>
+                <tbody id="analystsTableBody">
+                    <tr><td colspan="4" class="empty-state">Loading…</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="dashboard-section">
+            <div class="section-title-row">
+                <h2>Audit Trail — Status Changes</h2>
+                <span class="status-pill">Most recent 100</span>
+            </div>
+            <table class="data-table">
+                <thead><tr><th>Case ID</th><th>Analyst</th><th>Change</th><th>Notes</th><th>When</th></tr></thead>
+                <tbody id="auditTableBody">
+                    <tr><td colspan="5" class="empty-state">Loading…</td></tr>
                 </tbody>
             </table>
         </section>
     </main>
+
+    <footer class="placeholder-footer">
+        <p>&copy; 2026 Zatcher. All rights reserved. | <a href="index.html" style="color: rgba(255,255,255,0.7);">Home</a></p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', function () {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    navLinks.classList.toggle('active');
+                    this.classList.toggle('active');
+                });
+            }
+
+            document.getElementById('logoutBtn').addEventListener('click', function (e) {
+                e.preventDefault();
+                fetch('auth/logout.php', { method: 'POST', credentials: 'same-origin' })
+                    .finally(function () { window.location.href = 'login.html'; });
+            });
+
+            const POLL_MS = 30000;
+
+            function escapeHtml(str) {
+                const div = document.createElement('div');
+                div.textContent = str == null ? '' : String(str);
+                return div.innerHTML;
+            }
+
+            function guardedFetch(url) {
+                return fetch(url, { credentials: 'same-origin', cache: 'no-store' }).then(function (res) {
+                    if (res.status === 401 || res.status === 403) {
+                        window.location.href = 'login.html';
+                        return null;
+                    }
+                    return res.json();
+                });
+            }
+
+            function loadTotals() {
+                guardedFetch('zicta/dashboard.php').then(function (data) {
+                    if (!data) return;
+                    if (!data.success) return;
+
+                    const t = data.totals || {};
+                    document.getElementById('statTotal').textContent = t.total_incidents ?? '—';
+                    document.getElementById('statOpen').textContent =
+                        (parseInt(t.pending_incidents || 0, 10) + parseInt(t.investigating_incidents || 0, 10));
+                    document.getElementById('statAnalysts').textContent = (data.analysts || []).length;
+
+                    const analysts = data.analysts || [];
+                    const analystsBody = document.getElementById('analystsTableBody');
+                    document.getElementById('analystCountPill').textContent =
+                        analysts.length + (analysts.length === 1 ? ' analyst' : ' analysts');
+
+                    if (analysts.length === 0) {
+                        analystsBody.innerHTML = '<tr><td colspan="4" class="empty-state">No analysts on the roster yet.</td></tr>';
+                    } else {
+                        analystsBody.innerHTML = analysts.map(function (a) {
+                            return '<tr>' +
+                                '<td>' + escapeHtml(a.full_name) + '</td>' +
+                                '<td>' + escapeHtml(a.email) + '</td>' +
+                                '<td>' + escapeHtml(a.phone_number) + '</td>' +
+                                '<td>' + escapeHtml(a.created_at) + '</td>' +
+                                '</tr>';
+                        }).join('');
+                    }
+                });
+            }
+
+            function loadAnalytics() {
+                guardedFetch('zicta/analytics.php').then(function (data) {
+                    if (!data) return;
+                    const body = document.getElementById('categoryTableBody');
+                    if (!data.success) {
+                        body.innerHTML = '<tr><td colspan="2" class="empty-state">' + escapeHtml(data.error || 'Could not load analytics.') + '</td></tr>';
+                        return;
+                    }
+
+                    const rows = data.by_category || [];
+                    if (rows.length === 0) {
+                        body.innerHTML = '<tr><td colspan="2" class="empty-state">No cases yet.</td></tr>';
+                    } else {
+                        body.innerHTML = rows.map(function (r) {
+                            return '<tr><td>' + escapeHtml(r.category_name) + '</td><td>' + r.total + '</td></tr>';
+                        }).join('');
+                    }
+                });
+            }
+
+            function loadAudit() {
+                guardedFetch('zicta/audit.php').then(function (data) {
+                    if (!data) return;
+                    const body = document.getElementById('auditTableBody');
+                    if (!data.success) {
+                        body.innerHTML = '<tr><td colspan="5" class="empty-state">' + escapeHtml(data.error || 'Could not load the audit trail.') + '</td></tr>';
+                        return;
+                    }
+
+                    const rows = data.status_updates || [];
+                    if (rows.length === 0) {
+                        body.innerHTML = '<tr><td colspan="5" class="empty-state">No status changes logged yet.</td></tr>';
+                    } else {
+                        body.innerHTML = rows.map(function (r) {
+                            return '<tr>' +
+                                '<td>#' + r.incident_id + '</td>' +
+                                '<td>' + escapeHtml(r.admin_name) + '</td>' +
+                                '<td>' + escapeHtml(r.previous_status) + ' → ' + escapeHtml(r.new_status) + '</td>' +
+                                '<td>' + escapeHtml(r.notes || '—') + '</td>' +
+                                '<td>' + escapeHtml(r.updated_at) + '</td>' +
+                                '</tr>';
+                        }).join('');
+                    }
+                });
+            }
+
+            function loadAll() {
+                loadTotals();
+                loadAnalytics();
+                loadAudit();
+            }
+
+            document.getElementById('refreshBtn').addEventListener('click', loadAll);
+            loadAll();
+            setInterval(loadAll, POLL_MS);
+        });
+    </script>
 </body>
 </html>

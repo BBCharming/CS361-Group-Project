@@ -157,8 +157,8 @@
             <form class="auth-form" novalidate>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="fullName">Full name</label>
-                        <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required autocomplete="name">
+                        <label for="email">Email address</label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
                     </div>
                 </div>
 
@@ -212,51 +212,56 @@
 
             const form = document.querySelector('.auth-form');
             const message = document.querySelector('.form-message');
+
+            // Maps the role auth/login.php returns to where that role's
+            // dashboard actually lives. analyst has no dedicated page yet,
+            // so it falls back to the generic dashboard.
+            const roleRedirects = {
+                victim:  'victim-dashboard.html',
+                analyst: 'dashboard.html',
+                police:  'police-dashboard.html',
+                zicta:   'zicta-dashboard.html',
+            };
+
             form.addEventListener('submit', function(e){
                 e.preventDefault();
-                const name = document.getElementById('fullName').value.trim();
-                const pass = document.getElementById('password').value;
-                if(!name || !pass){
-                    message.textContent = 'Enter your full name and password.';
-                    message.className = 'form-message error';
-                    return;
-                }
-                message.textContent = 'Logged in. Redirecting to your dashboard…';
-                message.className = 'form-message success';
-            });
 
-            const form = document.getElementById('loginForm');
-            const message = document.getElementById('formMessage');
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
 
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                const username = document.getElementById('username').value.trim();
-                const password = document.getElementById('password').value.trim();
-                const normalizedUser = username.toLowerCase();
-
-                if (!username || !password) {
-                    message.textContent = 'Please enter both your username and password.';
+                if (!email || !password) {
+                    message.textContent = 'Enter your email and password.';
                     message.className = 'form-message error';
                     return;
                 }
 
-                if (normalizedUser === 'police' && password === 'police123') {
-                    message.textContent = 'Signing you in to the police dashboard...';
-                    message.className = 'form-message success';
-                    window.location.href = '/police-dashboard.html';
-                    return;
-                }
+                message.textContent = 'Logging in…';
+                message.className = 'form-message';
 
-                if (normalizedUser === 'zicta' && password === 'zicta123') {
-                    message.textContent = 'Signing you in to the ZICTA dashboard...';
-                    message.className = 'form-message success';
-                    window.location.href = '/zicta-dashboard.html';
-                    return;
-                }
+                const payload = new URLSearchParams({ email: email, password: password });
 
-                message.textContent = 'Invalid username or password. Use the demo credentials shown below.';
-                message.className = 'form-message error';
+                fetch('auth/login.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: payload,
+                    credentials: 'same-origin',
+                })
+                    .then(function(res) { return res.json().then(function(data) { return { ok: res.ok, data: data }; }); })
+                    .then(function(result) {
+                        if (result.ok && result.data.success) {
+                            message.textContent = 'Logged in. Redirecting to your dashboard…';
+                            message.className = 'form-message success';
+                            const destination = roleRedirects[result.data.role] || 'dashboard.html';
+                            window.location.href = destination;
+                        } else {
+                            message.textContent = result.data.error || 'Invalid email or password.';
+                            message.className = 'form-message error';
+                        }
+                    })
+                    .catch(function() {
+                        message.textContent = 'Network error — please try again.';
+                        message.className = 'form-message error';
+                    });
             });
         });
     </script>

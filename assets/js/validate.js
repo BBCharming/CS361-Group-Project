@@ -52,7 +52,49 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        messageBox.textContent = 'Account details look good. Your registration request is ready to be submitted.';
-        form.reset();
+        messageBox.textContent = 'Creating your account…';
+
+        const fullNameField = document.getElementById('fullName');
+        const emailField = document.getElementById('email');
+        const phoneField = document.getElementById('phone');
+        const roleField = document.getElementById('role');
+
+        const payload = new URLSearchParams({
+            full_name: fullNameField ? fullNameField.value.trim() : '',
+            email: emailField ? emailField.value.trim() : '',
+            phone_number: phoneField ? phoneField.value.trim() : '',
+            password: password,
+        });
+
+        // The role dropdown's "Administrator" option maps to the backend's
+        // 'zicta' role — the visible label matches the page as designed,
+        // only the submitted value is translated.
+        if (roleField) {
+            const role = roleField.value === 'administrator' ? 'zicta' : roleField.value;
+            payload.set('role', role);
+        }
+
+        fetch('auth/register.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: payload,
+            credentials: 'same-origin',
+        })
+            .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+            .then(function (result) {
+                if (result.ok && result.data.success) {
+                    messageBox.classList.remove('error');
+                    messageBox.textContent = 'Account created! Redirecting to login…';
+                    form.reset();
+                    setTimeout(function () { window.location.href = 'login.html'; }, 1200);
+                } else {
+                    messageBox.classList.add('error');
+                    messageBox.textContent = result.data.error || 'Registration failed. Please try again.';
+                }
+            })
+            .catch(function () {
+                messageBox.classList.add('error');
+                messageBox.textContent = 'Network error — please try again.';
+            });
     });
 });

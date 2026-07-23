@@ -17,6 +17,15 @@ $email    = trim($_POST['email'] ?? '');
 $phone    = trim($_POST['phone_number'] ?? '');
 $password = $_POST['password'] ?? '';
 
+// register.html offers a role picker (Victim/Analyst/Police/Administrator);
+// whitelist against the roles the RBAC guard actually understands and
+// fall back to 'victim' for anything missing or unrecognized.
+$allowedRoles = ['victim', 'analyst', 'police', 'zicta'];
+$role = $_POST['role'] ?? 'victim';
+if (!in_array($role, $allowedRoles, true)) {
+    $role = 'victim';
+}
+
 // Basic validation
 if ($fullName === '' || $email === '' || $phone === '' || $password === '') {
     http_response_code(422);
@@ -53,13 +62,14 @@ try {
 
     $stmt = $pdo->prepare(
         "INSERT INTO users (full_name, email, phone_number, password_hash, role, created_at)
-         VALUES (:full_name, :email, :phone, :hash, 'user', NOW())"
+         VALUES (:full_name, :email, :phone, :hash, :role, NOW())"
     );
     $stmt->execute([
         ':full_name' => $fullName,
         ':email'     => $email,
         ':phone'     => $phone,
         ':hash'      => $hash,
+        ':role'      => $role,
     ]);
 
     http_response_code(201);

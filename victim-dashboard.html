@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Zatcher Case Tracker - Track the status of the fraud reports you've filed.">
+    <title>My Reports - Zatcher</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        .empty-state { text-align: center; padding: 2rem 1rem; color: var(--text-light); }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body class="dashboard-page">
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html" aria-label="Zatcher Home">
+                    <h2>Zatcher</h2>
+                    <p class="tagline">Fraud Reporting Platform</p>
+                </a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="#" class="nav-btn login-btn" id="logoutBtn">Log out</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="dashboard-shell">
+        <div class="dashboard-header">
+            <div>
+                <p class="dashboard-eyebrow">Case Tracker</p>
+                <h1>Your Reports</h1>
+                <p class="dashboard-subtitle">Live status of every fraud report you've filed. This updates automatically every 30 seconds.</p>
+            </div>
+            <div class="dashboard-actions">
+                <button id="reportCaseBtn" class="cta-button">Report a Case</button>
+            </div>
+        </div>
+
+        <section class="dashboard-section hidden" id="reportFormSection">
+            <div class="section-title-row">
+                <h2>Report Fraud</h2>
+                <button class="view-btn" id="closeReportFormBtn" type="button">Close</button>
+            </div>
+            <form class="entry-form" id="reportForm">
+                <div class="form-row">
+                    <label>Category
+                        <select id="categoryId" required>
+                            <option value="" disabled selected>Select a category</option>
+                            <option value="1">Phishing</option>
+                            <option value="2">Mobile Money Fraud</option>
+                            <option value="3">Account Takeover</option>
+                            <option value="4">Social Media Scam</option>
+                            <option value="5">Fake Investment Scam</option>
+                        </select>
+                    </label>
+                    <label>Title
+                        <input type="text" id="title" placeholder="Short summary of what happened" required maxlength="150">
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label style="flex: 1 1 100%;">Description
+                        <textarea id="description" rows="4" placeholder="What happened, when, and how" required></textarea>
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>Suspect phone (optional)
+                        <input type="text" id="suspectPhone" placeholder="+260 ...">
+                    </label>
+                    <label>Suspect email (optional)
+                        <input type="email" id="suspectEmail" placeholder="scammer@example.com">
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>Transaction ID (optional)
+                        <input type="text" id="transactionId" placeholder="If a payment was involved">
+                    </label>
+                    <label>Evidence type
+                        <select id="evidenceType">
+                            <option value="Screenshot">Screenshot</option>
+                            <option value="Document">Document</option>
+                            <option value="Email">Email</option>
+                            <option value="Transaction Receipt">Transaction Receipt</option>
+                            <option value="Other" selected>Other</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label style="flex: 1 1 100%;">Evidence file (optional — image or PDF, max 5MB)
+                        <input type="file" id="evidenceFile" accept="image/jpeg,image/png,image/webp,application/pdf">
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn" id="submitReportBtn">Submit report</button>
+                <p class="form-message" id="reportMessage"></p>
+            </form>
+        </section>
+
+        <div class="stats-grid">
+            <div class="stat-card stat-card-primary">
+                <h3>Total reports</h3>
+                <div class="stat-number" id="pollStatTotal">—</div>
+                <span>filed so far</span>
+            </div>
+            <div class="stat-card stat-card-accent">
+                <h3>Open</h3>
+                <div class="stat-number" id="pollStatOpen">—</div>
+                <span>pending or being investigated</span>
+            </div>
+            <div class="stat-card stat-card-success">
+                <h3>Resolved</h3>
+                <div class="stat-number" id="pollStatResolved">—</div>
+                <span>resolved or closed</span>
+            </div>
+        </div>
+
+        <section class="dashboard-section">
+            <div class="section-title-row">
+                <h2>Reports</h2>
+                <span class="status-pill" id="pollCountPill">Loading…</span>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Report</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Evidence</th>
+                        <th>Last updated</th>
+                    </tr>
+                </thead>
+                <tbody id="pollTableBody">
+                    <tr><td colspan="5" class="empty-state">Loading your reports…</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer class="placeholder-footer">
+        <p>&copy; 2026 Zatcher. All rights reserved. | <a href="index.html" style="color: rgba(255,255,255,0.7);">Home</a></p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', function () {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    navLinks.classList.toggle('active');
+                    this.classList.toggle('active');
+                });
+            }
+
+            document.getElementById('logoutBtn').addEventListener('click', function (e) {
+                e.preventDefault();
+                fetch('auth/logout.php', { method: 'POST', credentials: 'same-origin' })
+                    .finally(function () { window.location.href = 'login.html'; });
+            });
+
+            // ---- report a new case ----
+            const reportFormSection = document.getElementById('reportFormSection');
+            const reportForm = document.getElementById('reportForm');
+            const reportMessage = document.getElementById('reportMessage');
+            const submitReportBtn = document.getElementById('submitReportBtn');
+
+            document.getElementById('reportCaseBtn').addEventListener('click', function () {
+                reportFormSection.classList.remove('hidden');
+                reportFormSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+
+            document.getElementById('closeReportFormBtn').addEventListener('click', function () {
+                reportFormSection.classList.add('hidden');
+            });
+
+            reportForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const formData = new FormData();
+                formData.append('category_id', document.getElementById('categoryId').value);
+                formData.append('title', document.getElementById('title').value.trim());
+                formData.append('description', document.getElementById('description').value.trim());
+                formData.append('suspect_phone', document.getElementById('suspectPhone').value.trim());
+                formData.append('suspect_email', document.getElementById('suspectEmail').value.trim());
+                formData.append('transaction_id', document.getElementById('transactionId').value.trim());
+                formData.append('evidence_type', document.getElementById('evidenceType').value);
+
+                const fileInput = document.getElementById('evidenceFile');
+                if (fileInput.files.length > 0) {
+                    formData.append('evidence_file', fileInput.files[0]);
+                }
+
+                submitReportBtn.disabled = true;
+                reportMessage.textContent = 'Submitting…';
+                reportMessage.className = 'form-message';
+
+                fetch('victim/report.php', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'same-origin',
+                })
+                    .then(function (res) {
+                        if (res.status === 401) {
+                            window.location.href = 'login.html';
+                            return null;
+                        }
+                        return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+                    })
+                    .then(function (result) {
+                        submitReportBtn.disabled = false;
+                        if (!result) return;
+
+                        if (result.ok && result.data.success) {
+                            reportMessage.textContent = 'Report submitted.';
+                            reportMessage.className = 'form-message success';
+                            reportForm.reset();
+                            if (window.zatcherRefreshCaseTracker) {
+                                window.zatcherRefreshCaseTracker();
+                            }
+                            setTimeout(function () {
+                                reportFormSection.classList.add('hidden');
+                                reportMessage.textContent = '';
+                            }, 1500);
+                        } else {
+                            reportMessage.textContent = result.data.error || 'Could not submit your report.';
+                            reportMessage.className = 'form-message error';
+                        }
+                    })
+                    .catch(function () {
+                        submitReportBtn.disabled = false;
+                        reportMessage.textContent = 'Network error — please try again.';
+                        reportMessage.className = 'form-message error';
+                    });
+            });
+        });
+    </script>
+    <script src="/assets/js/ajax-poll.js"></script>
+</body>
+</html>

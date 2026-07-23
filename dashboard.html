@@ -3,11 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Zatcher Dashboard - Track your fraud reports and case status.">
-    <title>Dashboard - Zatcher</title>
+    <meta name="description" content="Zatcher Analyst Workspace - Review open cases and LADINA's evidence analysis.">
+    <title>Analyst Dashboard - Zatcher</title>
     <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        /* Scoped to this page only — everything else reuses the shared
+           dashboard-* system already defined in style.css. */
+        .evidence-card {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.9rem;
+            background: var(--light-bg);
+        }
+        .evidence-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.6rem;
+        }
+        .evidence-card-header h4 {
+            margin: 0 0 0.2rem 0;
+            color: var(--dark-bg);
+        }
+        .evidence-meta {
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 0.6rem;
+            margin-top: 0.7rem;
+            font-size: 0.9rem;
+        }
+        .analysis-grid dt {
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .analysis-grid dd {
+            margin: 0.15rem 0 0 0;
+            color: var(--text-dark);
+        }
+        .analyst-note {
+            margin-top: 0.7rem;
+            padding: 0.7rem;
+            background: var(--white);
+            border-left: 3px solid var(--primary-color);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+        .evidence-error {
+            margin-top: 0.6rem;
+            padding: 0.6rem 0.8rem;
+            background: rgba(220, 53, 69, 0.1);
+            color: #b42318;
+            border-radius: 8px;
+            font-size: 0.88rem;
+        }
+        .run-btn {
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .run-btn:hover { background: var(--secondary-color); }
+        .run-btn:disabled { opacity: 0.6; cursor: wait; }
+        .view-btn {
+            background: none;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .view-btn:hover { background: var(--primary-color); color: var(--white); }
+        .empty-state {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--text-light);
+        }
+        .hidden { display: none !important; }
+    </style>
 </head>
-<body class="placeholder-page">
+<body class="dashboard-page">
     <!-- Navigation -->
     <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="nav-container">
@@ -23,59 +114,381 @@
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="index.html#about">About</a></li>
-                <li><a href="index.html#services">Services</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
-                <li><a href="login.html" class="nav-btn login-btn">Login</a></li>
-                <li><a href="register.html" class="nav-btn register-btn">Register</a></li>
+                <li><a href="#" class="nav-btn login-btn" id="logoutBtn">Log out</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="placeholder-content">
-        <div class="placeholder-card">
-            <div class="placeholder-icon">📊</div>
-            <h1>Dashboard Coming Soon</h1>
-            <p>
-                The user dashboard is currently under development and will be available in a future release. 
-                Once live, you'll be able to submit fraud reports, upload evidence, and track your case status in real-time.
-            </p>
-            <p>
-                For urgent matters, reach us at <strong>zatcher@gmail.com</strong> or call 
-                <strong>+260 969 102 041</strong>.
-            </p>
-            <a href="index.html" class="back-btn">Back to Home</a>
+    <main class="dashboard-shell">
+        <div class="dashboard-header">
+            <div>
+                <p class="dashboard-eyebrow">Analyst Workspace</p>
+                <h1>Case &amp; Evidence Intelligence</h1>
+                <p class="dashboard-subtitle">
+                    LADINA screens every piece of evidence automatically as it's uploaded.
+                    This is where you monitor that, and step in by hand when a run fails
+                    or a case needs a closer look.
+                </p>
+            </div>
+            <div class="dashboard-actions">
+                <button id="refreshBtn" class="secondary-button">Refresh now</button>
+            </div>
         </div>
+
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card stat-card-primary">
+                <h3>Pending</h3>
+                <div class="stat-number" id="statPending">—</div>
+                <span>awaiting first review</span>
+            </div>
+            <div class="stat-card stat-card-accent">
+                <h3>Investigating</h3>
+                <div class="stat-number" id="statInvestigating">—</div>
+                <span>actively worked</span>
+            </div>
+            <div class="stat-card stat-card-success">
+                <h3>LADINA Engine</h3>
+                <div class="stat-number" id="statLadina">—</div>
+                <span id="statLadinaSub">checking…</span>
+            </div>
+        </div>
+
+        <section class="dashboard-section">
+            <div class="section-title-row">
+                <h2>Open Cases</h2>
+                <span class="status-pill" id="caseCountPill">Loading…</span>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Case</th>
+                        <th>Category</th>
+                        <th>Reporter</th>
+                        <th>Status</th>
+                        <th>Evidence</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="casesTableBody">
+                    <tr><td colspan="6" class="empty-state">Loading open cases…</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="dashboard-section hidden" id="caseDetailSection">
+            <div class="section-title-row">
+                <h2 id="caseDetailTitle">Case detail</h2>
+                <button class="view-btn" id="closeDetailBtn">Close</button>
+            </div>
+
+            <form class="entry-form" id="statusForm">
+                <div class="form-row">
+                    <label>New status
+                        <select id="newStatusSelect">
+                            <option value="pending">Pending</option>
+                            <option value="investigating">Investigating</option>
+                            <option value="resolved">Resolved</option>
+                            <option value="closed">Closed</option>
+                        </select>
+                    </label>
+                    <label>Notes for the audit log
+                        <input type="text" id="statusNotes" placeholder="Optional">
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn">Update status</button>
+                <p class="form-message" id="statusMessage"></p>
+            </form>
+
+            <h3>Evidence</h3>
+            <div id="evidenceList"></div>
+        </section>
     </main>
 
-    <!-- Footer -->
     <footer class="placeholder-footer">
         <p>&copy; 2026 Zatcher. All rights reserved. | <a href="index.html" style="color: rgba(255,255,255,0.7);">Home</a></p>
     </footer>
 
-    <!-- JavaScript for Mobile Menu -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
+            // ---- mobile menu (same behavior as every other page) ----
             const menuToggle = document.querySelector('.mobile-menu-toggle');
             const navLinks = document.querySelector('.nav-links');
-
             if (menuToggle && navLinks) {
-                menuToggle.addEventListener('click', function() {
+                menuToggle.addEventListener('click', function () {
                     const isExpanded = this.getAttribute('aria-expanded') === 'true';
                     this.setAttribute('aria-expanded', !isExpanded);
                     navLinks.classList.toggle('active');
                     this.classList.toggle('active');
                 });
+            }
 
-                // Close menu when clicking outside
-                document.addEventListener('click', function(e) {
-                    if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
-                        navLinks.classList.remove('active');
-                        menuToggle.classList.remove('active');
-                        menuToggle.setAttribute('aria-expanded', 'false');
-                    }
+            document.getElementById('logoutBtn').addEventListener('click', function (e) {
+                e.preventDefault();
+                fetch('auth/logout.php', { method: 'POST', credentials: 'same-origin' })
+                    .finally(function () { window.location.href = 'login.html'; });
+            });
+
+            // ---- state ----
+            let currentIncidents = [];
+            let openIncidentId = null;
+            const POLL_MS = 30000;
+
+            const statPending = document.getElementById('statPending');
+            const statInvestigating = document.getElementById('statInvestigating');
+            const statLadina = document.getElementById('statLadina');
+            const statLadinaSub = document.getElementById('statLadinaSub');
+            const caseCountPill = document.getElementById('caseCountPill');
+            const casesTableBody = document.getElementById('casesTableBody');
+            const caseDetailSection = document.getElementById('caseDetailSection');
+            const caseDetailTitle = document.getElementById('caseDetailTitle');
+            const evidenceList = document.getElementById('evidenceList');
+            const statusForm = document.getElementById('statusForm');
+            const statusMessage = document.getElementById('statusMessage');
+
+            function escapeHtml(str) {
+                const div = document.createElement('div');
+                div.textContent = str == null ? '' : String(str);
+                return div.innerHTML;
+            }
+
+            function statusBadgeClass(status) {
+                if (status === 'pending') return 'status-warning';
+                if (status === 'investigating') return 'status-info';
+                return 'status-success'; // resolved / closed
+            }
+
+            function urgencyBadgeClass(level) {
+                if (level === 'high') return 'priority-high';
+                if (level === 'medium') return 'priority-medium';
+                return 'status-info';
+            }
+
+            // ---- data loading ----
+            function loadDashboard() {
+                fetch('analyst/dashboard.php', { credentials: 'same-origin', cache: 'no-store' })
+                    .then(function (res) {
+                        if (res.status === 401 || res.status === 403) {
+                            window.location.href = 'login.html';
+                            return null;
+                        }
+                        return res.json();
+                    })
+                    .then(function (data) {
+                        if (!data) return;
+                        if (!data.success) {
+                            casesTableBody.innerHTML = '<tr><td colspan="6" class="empty-state">' +
+                                escapeHtml(data.error || 'Could not load cases.') + '</td></tr>';
+                            return;
+                        }
+
+                        currentIncidents = data.incidents || [];
+                        renderStats(data.stats, data.ladina_configured);
+                        renderCasesTable(currentIncidents);
+
+                        if (openIncidentId) {
+                            const stillOpen = currentIncidents.find(function (i) { return i.id == openIncidentId; });
+                            if (stillOpen) {
+                                renderCaseDetail(stillOpen);
+                            } else {
+                                caseDetailSection.classList.add('hidden');
+                                openIncidentId = null;
+                            }
+                        }
+                    })
+                    .catch(function () {
+                        casesTableBody.innerHTML = '<tr><td colspan="6" class="empty-state">Network error loading cases.</td></tr>';
+                    });
+            }
+
+            function renderStats(stats, ladinaConfigured) {
+                stats = stats || {};
+                statPending.textContent = stats.pending != null ? stats.pending : '—';
+                statInvestigating.textContent = stats.investigating != null ? stats.investigating : '—';
+                if (ladinaConfigured) {
+                    statLadina.textContent = 'On';
+                    statLadinaSub.textContent = 'GEMINI_API_KEY configured';
+                } else {
+                    statLadina.textContent = 'Off';
+                    statLadinaSub.textContent = 'GEMINI_API_KEY missing on server';
+                }
+            }
+
+            function renderCasesTable(incidents) {
+                caseCountPill.textContent = incidents.length + (incidents.length === 1 ? ' case' : ' cases');
+
+                if (incidents.length === 0) {
+                    casesTableBody.innerHTML = '<tr><td colspan="6" class="empty-state">No open cases right now.</td></tr>';
+                    return;
+                }
+
+                casesTableBody.innerHTML = incidents.map(function (inc) {
+                    const needsAnalysis = (inc.evidence || []).some(function (e) { return !e.has_analysis; });
+                    return '<tr>' +
+                        '<td>' + escapeHtml(inc.title) + '</td>' +
+                        '<td>' + escapeHtml(inc.category_name) + '</td>' +
+                        '<td>' + escapeHtml(inc.reported_by) + '</td>' +
+                        '<td><span class="status-badge ' + statusBadgeClass(inc.incident_status) + '">' + escapeHtml(inc.incident_status) + '</span></td>' +
+                        '<td>' + (inc.evidence ? inc.evidence.length : 0) + (needsAnalysis ? ' <span class="status-badge status-warning">needs analysis</span>' : '') + '</td>' +
+                        '<td><button class="view-btn" data-incident-id="' + inc.id + '">View</button></td>' +
+                        '</tr>';
+                }).join('');
+
+                casesTableBody.querySelectorAll('[data-incident-id]').forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        const id = this.getAttribute('data-incident-id');
+                        const inc = currentIncidents.find(function (i) { return i.id == id; });
+                        if (inc) {
+                            openIncidentId = inc.id;
+                            renderCaseDetail(inc);
+                        }
+                    });
                 });
             }
+
+            function renderCaseDetail(inc) {
+                caseDetailSection.classList.remove('hidden');
+                caseDetailTitle.textContent = inc.title;
+                document.getElementById('newStatusSelect').value = inc.incident_status;
+                statusMessage.textContent = '';
+                statusMessage.className = 'form-message';
+
+                statusForm.onsubmit = function (e) {
+                    e.preventDefault();
+                    const notes = document.getElementById('statusNotes').value.trim();
+                    const newStatus = document.getElementById('newStatusSelect').value;
+
+                    statusMessage.textContent = 'Saving…';
+                    statusMessage.className = 'form-message';
+
+                    fetch('analyst/dashboard.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        credentials: 'same-origin',
+                        body: new URLSearchParams({
+                            action: 'update_status',
+                            incident_id: inc.id,
+                            new_status: newStatus,
+                            notes: notes,
+                        }),
+                    })
+                        .then(function (res) { return res.json(); })
+                        .then(function (data) {
+                            if (data.success) {
+                                statusMessage.textContent = 'Status updated.';
+                                statusMessage.className = 'form-message success';
+                                document.getElementById('statusNotes').value = '';
+                                loadDashboard();
+                            } else {
+                                statusMessage.textContent = data.error || 'Could not update status.';
+                                statusMessage.className = 'form-message error';
+                            }
+                        })
+                        .catch(function () {
+                            statusMessage.textContent = 'Network error — please try again.';
+                            statusMessage.className = 'form-message error';
+                        });
+                };
+
+                renderEvidenceList(inc.evidence || []);
+            }
+
+            function renderEvidenceList(items) {
+                if (items.length === 0) {
+                    evidenceList.innerHTML = '<p class="empty-state">No evidence uploaded for this case yet.</p>';
+                    return;
+                }
+
+                evidenceList.innerHTML = items.map(function (item) {
+                    return evidenceCardHtml(item);
+                }).join('');
+
+                evidenceList.querySelectorAll('[data-run-evidence-id]').forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        runAnalysis(this.getAttribute('data-run-evidence-id'), this);
+                    });
+                });
+            }
+
+            function evidenceCardHtml(item) {
+                const badge = item.has_analysis
+                    ? '<span class="status-badge status-success">Analysed</span>'
+                    : '<span class="status-badge status-warning">Needs analysis</span>';
+
+                let body = '';
+                if (item.analysis) {
+                    const a = item.analysis;
+                    body = '<dl class="analysis-grid">' +
+                        '<div><dt>Platform</dt><dd>' + escapeHtml(a.platform || '—') + '</dd></div>' +
+                        '<div><dt>Technique</dt><dd>' + escapeHtml(a.scam_technique || '—') + '</dd></div>' +
+                        '<div><dt>Urgency</dt><dd><span class="status-badge ' + urgencyBadgeClass(a.urgency_level) + '">' + escapeHtml(a.urgency_level || '—') + '</span></dd></div>' +
+                        '<div><dt>Confidence</dt><dd>' + (a.confidence_score != null ? Math.round(a.confidence_score * 100) + '%' : '—') + '</dd></div>' +
+                        '<div><dt>Scammer phone</dt><dd>' + escapeHtml(a.scammer_phone || '—') + '</dd></div>' +
+                        '<div><dt>Scammer alias</dt><dd>' + escapeHtml(a.scammer_alias || '—') + '</dd></div>' +
+                        '</dl>' +
+                        (a.analyst_note ? '<p class="analyst-note">"' + escapeHtml(a.analyst_note) + '"</p>' : '');
+                }
+
+                return '<div class="evidence-card" data-evidence-card-id="' + item.id + '">' +
+                    '<div class="evidence-card-header">' +
+                    '<div>' +
+                    '<h4>' + escapeHtml(item.evidence_type) + '</h4>' +
+                    '<div class="evidence-meta">' + escapeHtml(item.file_path) + ' · updated ' + escapeHtml(item.updated_at) + '</div>' +
+                    '</div>' +
+                    badge +
+                    '</div>' +
+                    body +
+                    '<div class="evidence-card-actions" style="margin-top:0.8rem;">' +
+                    '<button class="run-btn" data-run-evidence-id="' + item.id + '">' +
+                    (item.has_analysis ? 'Re-run LADINA' : 'Run LADINA now') +
+                    '</button>' +
+                    '</div>' +
+                    '<div class="run-result"></div>' +
+                    '</div>';
+            }
+
+            function runAnalysis(evidenceId, btn) {
+                const card = document.querySelector('[data-evidence-card-id="' + evidenceId + '"]');
+                const resultBox = card ? card.querySelector('.run-result') : null;
+
+                btn.disabled = true;
+                btn.textContent = 'Running…';
+                if (resultBox) resultBox.innerHTML = '';
+
+                fetch('analyst/dashboard.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    credentials: 'same-origin',
+                    body: new URLSearchParams({ action: 'analyze_evidence', evidence_id: evidenceId }),
+                })
+                    .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+                    .then(function (result) {
+                        if (result.ok && result.data.success) {
+                            loadDashboard();
+                        } else if (resultBox) {
+                            resultBox.innerHTML = '<p class="evidence-error">' +
+                                escapeHtml(result.data.error || 'Analysis failed.') + '</p>';
+                            btn.disabled = false;
+                            btn.textContent = 'Retry';
+                        }
+                    })
+                    .catch(function () {
+                        if (resultBox) {
+                            resultBox.innerHTML = '<p class="evidence-error">Network error — please try again.</p>';
+                        }
+                        btn.disabled = false;
+                        btn.textContent = 'Retry';
+                    });
+            }
+
+            document.getElementById('refreshBtn').addEventListener('click', loadDashboard);
+            document.getElementById('closeDetailBtn').addEventListener('click', function () {
+                caseDetailSection.classList.add('hidden');
+                openIncidentId = null;
+            });
+
+            loadDashboard();
+            setInterval(loadDashboard, POLL_MS);
         });
     </script>
 </body>
